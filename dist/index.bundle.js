@@ -90,10 +90,11 @@
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-eval("var extend = function extend() {\n  var extended = {};\n  var deep = false;\n  var i = 0;\n  var length = arguments.length;\n\n  if (object.prototype.toString.call(arguments[0]) === '[Object Boolean]') {\n    deep = arguments[0];\n    i++;\n  }\n\n  var merge = function merge(obj) {\n    for (var prop in obj) {\n      if (Object.prototype.hasOwnProperty.call(obj, prop)) {\n        if (deep && Object.prototype.toString.call(obj[prop]) === '[object Object]') {\n          extended[prop] = extend(true, extended[prop], obj[prop]);\n        } else {\n          extended[prop] = obj[prop];\n        }\n      }\n    }\n  };\n\n  for (; i < length; i++) {\n    var obj = arguments[i];\n    merge(obj);\n  }\n\n  return extended;\n};\n\nvar GoatCurry = function GoatCurry() {\n  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};\n  this.count = 1;\n  this.root = window;\n};\n\n//# sourceURL=webpack:///./src/index.js?");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return GoatCurry; });\n\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nvar GoatCurry =\n/*#__PURE__*/\nfunction () {\n  function GoatCurry() {\n    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};\n\n    _classCallCheck(this, GoatCurry);\n\n    this.options = options;\n  }\n\n  _createClass(GoatCurry, [{\n    key: \"options\",\n    get: function get() {\n      return this.options();\n    }\n  }]);\n\n  return GoatCurry;\n}();\n\n\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 
