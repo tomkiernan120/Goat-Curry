@@ -2,20 +2,24 @@ const path = require( "path" );
 
 var config = {
   mode: 'development',
-  watch: true,
-  watchOptions: {
-    ignored: /node_modules/
-  },
   entry: {
     index: "./src/index.js"
   },
   output: {
     filename: "[name].bundle.js",
-    path: path.resolve( __dirname, 'dist' )
+    path: path.resolve( __dirname, 'dist' ),
   },
   devServer: {
-    contentBase: './public'
+    contentBase: path.join(__dirname, 'public'),
+    compress: true,
+    port: 9000,
+    publicPath: "http://localhost:8080/dist/",
   },
+  watch: true,
+  watchOptions: {
+    ignored: /node_modules/
+  },
+  target: "web",
   module: {
     rules: [
       {

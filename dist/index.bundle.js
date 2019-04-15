@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("console.log('test');\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("var extend = function extend() {\n  var extended = {};\n  var deep = false;\n  var i = 0;\n  var length = arguments.length;\n\n  if (object.prototype.toString.call(arguments[0]) === '[Object Boolean]') {\n    deep = arguments[0];\n    i++;\n  }\n\n  var merge = function merge(obj) {\n    for (var prop in obj) {\n      if (Object.prototype.hasOwnProperty.call(obj, prop)) {\n        if (deep && Object.prototype.toString.call(obj[prop]) === '[object Object]') {\n          extended[prop] = extend(true, extended[prop], obj[prop]);\n        } else {\n          extended[prop] = obj[prop];\n        }\n      }\n    }\n  };\n\n  for (; i < length; i++) {\n    var obj = arguments[i];\n    merge(obj);\n  }\n\n  return extended;\n};\n\nvar GoatCurry = function GoatCurry() {\n  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};\n  this.count = 1;\n  this.root = window;\n};\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 

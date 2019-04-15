@@ -4,7 +4,9 @@
   "description": "A Open Source Content Editor, still very much a work in progress.",
   "main": "./dist/index.bundle.js",
   "scripts": {
-    "dev": "webpack --mode development"
+    "watch": "webpack --mode development",
+    "start": "webpack-dev-server --open",
+    "build": "webpack"
   },
   "bugs": {
     "url": "https://github.com/tomkiernan120/goat-curry/issues",
