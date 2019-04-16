@@ -1,12 +1,13 @@
 import extend from 'extend';
-import Sizzle from 'sizzle';
-import sanitize from 'sanitize-html';
+import sizzle from 'sizzle';
+import sanitizeHtml from 'sanitize-html';
 
 "use strict";
 
 class GoatCurry {
 
   constructor( options = {} ) {
+    var d = new Date();
     var self = this;
     this.options = {};
     this.editor = {};
@@ -14,7 +15,12 @@ class GoatCurry {
     this.options.selector = '';
     this.version = this.options.version = "1.0.0";
     this.options = extend( true, this.options, options );
-    this.outputJSON = [];
+    this.outputJSON = {
+      time: d.getTime(),
+      blocks: [],
+      version: this.version
+    };
+    this.jsonUpdated();
     this.init();
   }
 
@@ -44,12 +50,11 @@ class GoatCurry {
     return Array.isArray( val );
   }
 
-
   sizzle( selector ) {
     if( !GoatCurry.isString( selector ) ) {
       throw new Error( `The selector you are using is not of the type string: ${selector}` );
     }
-    return Sizzle( selector );
+    return sizzle( selector );
   } 
 
   doNothing() {
@@ -70,6 +75,12 @@ class GoatCurry {
     if( event.target.classList.contains( "editor" ) && event.target.children.length ) {
       for( var n of event.target.children ) {
         if( !n.children.length && !n.innerHTML ) {
+          console.log( n.dataset );
+          if( this.outputJSON.blocks[ n.dataset.blockindex ] ) {
+            var removed = this.outputJSON.blocks.splice( n.dataset.blockindex  , 1 );
+            this.jsonUpdated();
+          } 
+          console.log( n );
           n.remove();
         }
       }
@@ -77,20 +88,16 @@ class GoatCurry {
       var lastItem = event.target.children.item( event.target.children.length - 1 );
 
       if( lastItem ) {
-
         var position = GoatCurry.getPosition( lastItem );
         
         if( position.y  ) {
-
           var height = position.y + lastItem.offsetHeight;
           var clickPositions = this.getClickPosition( event );
 
           if( height < clickPositions.y ) {
             this.addEditableArea()
           }
-
         }
-
       }
 
     }
@@ -101,7 +108,15 @@ class GoatCurry {
 
   handleInput( event, GoatCurry ) {
     var elem = event.target;
+    var blockIndex = elem.dataset.blockindex;
     var value = elem.innerHTML;
+
+    if( blockIndex && this.outputJSON.blocks.length && this.outputJSON.blocks[blockIndex] ){
+
+      this.outputJSON.blocks[blockIndex].data.text = sanitizeHtml( value );
+      this.jsonUpdated();
+    }
+
   }
 
   getClickPosition( event ) {
@@ -127,19 +142,22 @@ class GoatCurry {
       node.addEventListener( 'input', () => this.handleInput( event, this ) );
       node.addEventListener( 'focus', () => this.handleFocus( event, this ) );
       node.addEventListener( 'blur', () => this.handleBlur( event, this ) );
+      node.dataset.blockindex = this.outputJSON.blocks.length;
       this.editor[0].appendChild( node );
+      this.outputJSON.blocks.push( { "type": "pararaph", "data" : { "text" : "" } } );
+      this.jsonUpdated();
       node.focus();
     }
   }
 
   handleFocus( event, GoatCurry ) {
-    if( thi )
+    
   }
 
   handleBlur( event, GoatCurry ) {
     var elem = event.target;
     var value = elem.innerHTML;
-    var cleanValue = sanitize( value );
+    var cleanValue = sanitizeHtml( value );
     elem.innerHTML = cleanValue;
   }
 
@@ -178,10 +196,15 @@ class GoatCurry {
     } 
   }
 
-  garbageCollection() {
+  garbageCollection() {  
+    // TODO: garbage collection
+  }
 
 
-
+  jsonUpdated() {
+    var d = new Date();
+    this.outputJSON.time = d.getTime();
+    console.log( this.outputJSON );
   }
 
 }
