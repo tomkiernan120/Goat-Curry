@@ -1,5 +1,5 @@
 import extend from 'extend';
-import sizzle from 'sizzle';
+import Sizzle from 'sizzle';
 import sanitizeHtml from 'sanitize-html';
 
 "use strict";
@@ -27,7 +27,7 @@ class GoatCurry {
   static isString( input ) {
     return typeof input === "string";
   }
-
+  
   static isPlainObject( val ) {
     return !!val && typeof val === 'object' && val.constructor === object;
   }
@@ -54,7 +54,7 @@ class GoatCurry {
     if( !GoatCurry.isString( selector ) ) {
       throw new Error( `The selector you are using is not of the type string: ${selector}` );
     }
-    return sizzle( selector );
+    return Sizzle( selector );
   } 
 
   doNothing() {
@@ -72,32 +72,19 @@ class GoatCurry {
 
   handleClick( event, GoatCurry ) {
 
-    if( event.target.classList.contains( "editor" ) && event.target.children.length ) {
-      for( var n of event.target.children ) {
-        if( !n.children.length && !n.innerHTML ) {
-          console.log( n.dataset );
-          if( this.outputJSON.blocks[ n.dataset.blockindex ] ) {
-            var removed = this.outputJSON.blocks.splice( n.dataset.blockindex  , 1 );
-            this.jsonUpdated();
-          } 
-          console.log( n );
-          n.remove();
-        }
-      }
+    var target = event.target;
+
+    if( target.classList.contains( "editor" ) && target.children.length ) {
+
+      this.garbageCollection( target );
 
       var lastItem = event.target.children.item( event.target.children.length - 1 );
+      var position = GoatCurry.getPosition( lastItem );        
+      var height = position.y + lastItem.offsetHeight;
+      var clickPositions = this.getClickPosition( event );
 
-      if( lastItem ) {
-        var position = GoatCurry.getPosition( lastItem );
-        
-        if( position.y  ) {
-          var height = position.y + lastItem.offsetHeight;
-          var clickPositions = this.getClickPosition( event );
-
-          if( height < clickPositions.y ) {
-            this.addEditableArea()
-          }
-        }
+      if( height < clickPositions.y ) {
+        this.addEditableArea()
       }
 
     }
@@ -196,8 +183,22 @@ class GoatCurry {
     } 
   }
 
-  garbageCollection() {  
-    // TODO: garbage collection
+  garbageCollection( target ) {  
+    if( !target ) {
+      console.error( `Could not find ${target}` );   
+    }
+
+    for( var n of event.target.children ) {
+      if( !n.children.length && !n.innerHTML ) {
+
+        if( this.outputJSON.blocks[ n.dataset.blockindex ] ) {
+          var removed = this.outputJSON.blocks.splice( n.dataset.blockindex  , 1 );
+          this.jsonUpdated();
+        } 
+        console.log( n );
+        n.remove();
+      }
+    }
   }
 
 
