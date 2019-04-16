@@ -8,6 +8,9 @@ var config = {
   output: {
     filename: "[name].bundle.js",
     path: path.resolve( __dirname, 'dist' ),
+    library: "GoatCurry",
+    libraryExport: "default" ,
+    libraryTarget: 'umd'
   },
   devServer: {
     contentBase: path.join(__dirname, 'public'),

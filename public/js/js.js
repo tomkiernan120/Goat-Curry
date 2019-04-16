@@ -1,7 +1,9 @@
 document.addEventListener( "DOMContentLoaded", function() {
 
-  console.log( window );
+  var GC = new GoatCurry({
+    selector: ".editor",
+  });
+  
 
-  var GoatCurry = new GoatCurry;
- 
+
 });
