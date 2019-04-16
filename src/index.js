@@ -71,7 +71,6 @@ class GoatCurry {
   }
 
   handleClick( event, GoatCurry ) {
-
     var target = event.target;
 
     if( target.classList.contains( "editor" ) && target.children.length ) {
@@ -83,13 +82,13 @@ class GoatCurry {
       var height = position.y + lastItem.offsetHeight;
       var clickPositions = this.getClickPosition( event );
 
-      if( height < clickPositions.y ) {
+      if( ( height + 10 ) < clickPositions.y ) {
         this.addEditableArea()
       }
 
     }
-    else if( !event.target.classList.contains( 'block' ) ) {
-      GoatCurry.addEditableArea();
+    else if( !this.parentContainsClass( target, 'block' ) ) {
+      this.addEditableArea();
     }
   }
 
@@ -179,11 +178,16 @@ class GoatCurry {
     }
 
     var children = target.children;
-    var remove = false;
+    var removed = [];
     for (let item of children) {
       if( !item.children.length && !item.innerHTML.trim() ){
-        
+        item.remove();
+        removed.push( item.dataset.blockindex );
       }
+    }
+
+    if( removed.length ) {
+       
     }
 
     // target.children.forEach( (e,i) => {
@@ -203,6 +207,22 @@ class GoatCurry {
     // }
   }
 
+  parentContainsClass( element, className ) {
+    var isContained = false;
+
+    if( element.classList.contains( className ) ){
+      isContained = true;
+    }
+
+    while( element && !isContained ) {
+      element = element.offsetParent;
+      if( element.classList.contains( className ) ) {
+        isContained = true;
+      }
+    }
+
+    return isContained;
+  }
 
   jsonUpdated() {
     var d = new Date();
