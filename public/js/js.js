@@ -1,4 +1,7 @@
 document.addEventListener( "DOMContentLoaded", function() {
 
-  new GoatCurry();
+  console.log( window );
+
+  var GoatCurry = new GoatCurry;
+ 
 });

@@ -1,13 +1,11 @@
 "use strict";
 
-export default class GoatCurry {
+class GoatCurry {
+  constructor() {
 
-  constructor( options = {} ) {
-    this.options = options;
   }
 
-  get options () {
-    return this.options();
+  doNothing() {
+    
   }
-
 }
