@@ -178,17 +178,29 @@ class GoatCurry {
       console.error( `Could not find ${target}` );   
     }
 
-    for( var n of event.target.children ) {
-      if( !n.children.length && !n.innerHTML ) {
-
-        if( this.outputJSON.blocks[ n.dataset.blockindex ] ) {
-          var removed = this.outputJSON.blocks.splice( n.dataset.blockindex  , 1 );
-          this.jsonUpdated();
-        } 
-        console.log( n );
-        n.remove();
+    var children = target.children;
+    var remove = false;
+    for (let item of children) {
+      if( !item.children.length && !item.innerHTML.trim() ){
+        
       }
     }
+
+    // target.children.forEach( (e,i) => {
+    //   console.log(e);
+    // });   
+
+    // for( var n of event.target.children ) {
+    //   if( !n.children.length && !n.innerHTML ) {
+
+    //     if( this.outputJSON.blocks[ n.dataset.blockindex ] ) {
+    //       var removed = this.outputJSON.blocks.splice( n.dataset.blockindex  , 1 );
+    //       this.jsonUpdated();
+    //     } 
+    //     console.log( n );
+    //     n.remove();
+    //   }
+    // }
   }
 
 
