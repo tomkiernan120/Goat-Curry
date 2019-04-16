@@ -1,6 +1,6 @@
 {
   "name": "goatcurry",
-  "version": "1.0.113",
+  "version": "1.0.114",
   "description": "A Open Source Content Editor, still very much a work in progress.",
   "main": "./dist/index.bundle.js",
   "scripts": {
