@@ -6,6 +6,7 @@ import Sizzle from 'sizzle';
 class GoatCurry {
 
   constructor( options = {} ) {
+    var self = this;
     this.options = {};
     this.editor = {};
     this.contentAreas = [];
@@ -19,6 +20,8 @@ class GoatCurry {
     return typeof input === "string";
   }
 
+
+
   sizzle( selector ) {
     if( !GoatCurry.isString( selector ) ) {
       throw new Error( `The selector you are using is not of the type string: ${selector}` );
@@ -31,15 +34,33 @@ class GoatCurry {
   }
 
   bindEvents() {
+    var self = this;
     if( this.editor.length ) {
       this.editor.forEach( (e, i) => {
-        e.addEventListener( 'click', () =>  this.handleClick() );
+        e.addEventListener( 'click', () =>  this.handleClick( event, this ) );
       });
     }
   }
 
-  handleClick(e) {
-    console.log( arguments )
+  handleClick( event, GoatCurry ) {
+
+    if( event.target.classList.contains( "editor" ) && event.target.children.length ) {
+      for( var n of event.target.children ) {
+        if( !n.children.length && !n.innerHTML ) {
+          n.remove();
+        }
+      }
+
+    }
+    else if( !event.target.classList.contains( 'block' ) ) {
+      GoatCurry.addEditableArea();
+    }
+  }
+
+  handleInput( event, GoatCurry ) {
+    var elem = event.target;
+    var value = elem.innerHTML;
+    console.log( value );
   }
 
   addEditableArea() {
@@ -48,7 +69,9 @@ class GoatCurry {
       var node = document.createElement( "div" );
       node.setAttribute( 'contenteditable', true );
       node.classList.add( 'block' );
+      node.addEventListener( 'input', () => this.handleInput( event, this ) );
       this.editor[0].appendChild( node );
+      node.focus();
     }
   }
 
