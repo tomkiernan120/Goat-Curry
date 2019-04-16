@@ -27,7 +27,7 @@ class GoatCurry {
   static isString( input ) {
     return typeof input === "string";
   }
-  
+
   static isPlainObject( val ) {
     return !!val && typeof val === 'object' && val.constructor === object;
   }
@@ -162,25 +162,15 @@ class GoatCurry {
   }
 
   init() {
-    if( this.options.selector ) {
-      this.editor = this.sizzle( this.options.selector );
+    if( !this.options.selector ) {
+      throw new Error( `Please use css selector to set the editor instance` );
+    }
 
-      if( this.editor.length ) {
-        for( var i = 0; i < this.editor.length; i++ ) {
+    this.editor = this.sizzle( this.options.selector );
 
-          let domEl = this.editor[i];
-
-          if( domEl.children.length ) {
-            // instantiate editableness
-          }
-          else {
-
-          }
-
-          this.bindEvents();
-        } 
-      }
-    } 
+    if( this.editor.length ) { // TODO: extend so you can have multiple instances;
+        this.bindEvents();
+    }
   }
 
   garbageCollection( target ) {  
