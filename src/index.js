@@ -121,7 +121,6 @@ class GoatCurry {
 
   addEditableArea() {
     if( this.editor.length ) {
-      console.log( this.editor[0] );
       var node = document.createElement( "div" );
       node.setAttribute( 'contenteditable', true );
       node.classList.add( 'block' );
@@ -187,28 +186,19 @@ class GoatCurry {
     }
 
     if( removed.length ) {
-       
+      removed.forEach( ( e, i ) => {
+        if( this.outputJSON.blocks[ e ] ) {
+          this.outputJSON.blocks.splice( e, 1 );
+          this.jsonUpdated();
+        }
+      });
     }
-
-    // target.children.forEach( (e,i) => {
-    //   console.log(e);
-    // });   
-
-    // for( var n of event.target.children ) {
-    //   if( !n.children.length && !n.innerHTML ) {
-
-    //     if( this.outputJSON.blocks[ n.dataset.blockindex ] ) {
-    //       var removed = this.outputJSON.blocks.splice( n.dataset.blockindex  , 1 );
-    //       this.jsonUpdated();
-    //     } 
-    //     console.log( n );
-    //     n.remove();
-    //   }
-    // }
   }
 
   parentContainsClass( element, className ) {
     var isContained = false;
+    
+    console.log( element );
 
     if( element.classList.contains( className ) ){
       isContained = true;
@@ -216,7 +206,10 @@ class GoatCurry {
 
     while( element && !isContained ) {
       element = element.offsetParent;
-      if( element.classList.contains( className ) ) {
+      
+      console.log( element );
+      
+      if( element && element.classList.contains( className ) ) {
         isContained = true;
       }
     }
