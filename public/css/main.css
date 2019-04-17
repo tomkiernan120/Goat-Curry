@@ -78,5 +78,6 @@ section.centred{
   padding: 5% 10%;
   height: auto;
   background: #fefefe;
-  border-radius: 18px
+  border-radius: 18px;
+  font-family: 'Roboto', sans-serif; 
 }

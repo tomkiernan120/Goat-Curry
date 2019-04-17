@@ -28,6 +28,10 @@ class GoatCurry {
     this.init();
     this.modules = new Modules( this.options );
     this.activeContextMenu = false;
+    if( !options.update && typeof options.update === "function" ) {
+      this.update = options.update;
+    }
+   
   }
 
   static isString( input ) {
@@ -79,23 +83,37 @@ class GoatCurry {
       this.editor.forEach( (e, i) => {
         e.addEventListener( 'click', () =>  this.handleClick( event, this ) );
       });
+
+      document.addEventListener( "click", () => this.documentClick( event, this ) );
     }
   }
 
-  handleClick( event, GoatCurry ) {
-    var target = event.currentTarget;
+  documentClick( event, GoatCurry ) {
+    console.log( 'click' );
+    console.log( event );
+  }
 
-    console.log(  target );
+  handleClick( event, GoatCurry ) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    var target = event.target;
+    console.log( event );
 
     if( !target ) {
+      console.log( 93 );
       return false;
     }
 
+    console.log( target );
+
     if( target.classList.contains( "editor_button" ) ) {
+      alert( 'tst' );
+      console.log( 99 );
       return false;
     }
 
     if( target.classList.contains( "editor" ) && target.children.length ) {
+      console.log( 104 );
 
       this.garbageCollection( target );
 
@@ -114,6 +132,7 @@ class GoatCurry {
 
     }
     else if( !this.parentContainsClass( target, 'block' ) ) {
+      console.log( 123 );
       this.addEditableArea();
     }
   }
@@ -146,6 +165,7 @@ class GoatCurry {
   }
 
   addEditableArea() {
+
     var self = this;
     if( this.editor.length ) {
 
@@ -190,26 +210,6 @@ class GoatCurry {
         this.style.fill = "blue";
       });
 
-      optionButton.addEventListener( "click", function(e) {
-        alert( 'test' );
-        ev.stopPropagation();
-        e.preventDefault();
-        if( self.activeContextMenu ) {
-          var menu = document.querySelector( '.editor_contextmenu' );
-          menu.remove();
-        }
-
-
-        var contextMenu = document.createElement( "div" );
-        contextMenu.style.width = "10px";
-        contextMenu.style.height = "10px";
-        contextMenu.style.background = "red";
-
-
-        self.editor[0].append( contextMenu );
-
-      });
-
       optionButton.addEventListener( "mouseleave", function(e) {
         this.style.fill = "black";
       });
@@ -236,6 +236,10 @@ class GoatCurry {
     }
   }
 
+  handleButtonClick() {
+    console.log( 'test' )
+  }
+
   handleFocus( event, GoatCurry ) {
     var elem = event.target;
     var button = elem.previousSibling;
@@ -249,13 +253,6 @@ class GoatCurry {
     var value = elem.innerHTML;
     var cleanValue = sanitizeHtml( GoatCurry.stripTags(value), { allowedTags: [] } );
     elem.innerHTML = cleanValue;
-
-    var buttonOptions = elem.previousSibling;
-    buttonOptions.style.display = "none";
-
-    var moveOptions = elem.nextSibling;
-    moveOptions.style.display = "none";
-
   }
 
   getPosition( element ) {
@@ -331,7 +328,11 @@ class GoatCurry {
     console.log( this.outputJSON );
   }
 
+  update() {
+    this.doNothing();
+  }
 
 }
+
 
 export default GoatCurry;
