@@ -87,27 +87,23 @@ class GoatCurry {
   }
 
   documentClick( event, GoatCurry ) {
-    console.log( 'click' );
-    console.log( event );
+
   }
 
   handleClick( event, GoatCurry ) {
     event.preventDefault();
     event.stopImmediatePropagation();
     var target = event.target;
-    console.log( event );
 
     if( !target ) {
       return false;
     }
 
     if( this.parentContainsClass( target, 'editor_button' )) {
-      console.log( 104 );
       return false;
     }
 
     if( target.classList.contains( "editor" ) && target.children.length ) {
-      console.log( 104 );
 
       this.garbageCollection( target );
 
@@ -124,7 +120,6 @@ class GoatCurry {
       }
     }
     else if( !this.parentContainsClass( target, 'block' ) ) {
-      console.log( 123 );
       this.addEditableArea();
     }
   }
@@ -246,7 +241,7 @@ class GoatCurry {
   }
 
   handleButtonClick() {
-    console.log( 'test' )
+
   }
 
   handleFocus( event, GoatCurry ) {
@@ -254,17 +249,32 @@ class GoatCurry {
     var button = elem.previousSibling;
     button.style.display = "block";
     var moveOptions = elem.nextSibling;
+
+    if( moveOptions.nodeName === "DIV" ) {
+      moveOptions.remove();
+      moveOptions = elem.nextSibling();
+    }
+
     moveOptions.style.display = "block";
   }
 
   handleBlur( event, GoatCurry ) {
     var elem = event.target;
     var value = elem.innerHTML;
-    console.log( elem );
     var cleanValue = sanitizeHtml( GoatCurry.stripTags(value), { allowedTags: [] } );
     elem.innerHTML = cleanValue;
     var optionButton = elem.previousSibling;
     var moveOptions = elem.nextSibling;
+
+    if( moveOptions.nodeName === "DIV" ) {
+      moveOptions.remove();
+    }
+
+    moveOptions = elem.nextSibling;
+
+    if( moveOptions.classList.contains( "active" ) ){
+      moveOptions.classList.remove( "active" );
+    }
 
     this.modules.handleBlur( event, elem, GoatCurry );
 
@@ -272,6 +282,7 @@ class GoatCurry {
       if( !GoatCurry.buttonDown ) {
         optionButton.style.display = "none";
         moveOptions.style.display = "none";
+
       }
       GoatCurry.buttonDown = false;
     }, 600);

@@ -55,6 +55,7 @@ export default class Modules {
 
   handleMoveClick( event, elem, GoatCurry ) {
     if( !elem.classList.contains( "active" ) ) {
+
       elem.classList.add( "active" );
 
       var popUp = document.createElement( "div" );
@@ -68,10 +69,47 @@ export default class Modules {
       moveUpButton.style.border = 0;
 
       var removeButton = document.createElement( "button" );
-      removeButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 24 24" style=" fill:#000000;"><path style="line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal" d="M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z" font-weight="400" font-family="sans-serif" white-space="normal" overflow="visible"></path></svg>';
+      removeButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 24 24" style=" fill:inherit;"><path style="line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal" d="M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z" font-weight="400" font-family="sans-serif" white-space="normal" overflow="visible"></path></svg>';
       removeButton.style.background = "transparent";
       removeButton.style.cursor = "pointer";
       removeButton.style.border = 0;
+
+      removeButton.addEventListener( "click", function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if( !this.classList.contains( "clicked" ) ) {
+          this.classList.add( "clicked" );
+          this.style.fill = "red";
+        }
+        else {
+          var blockIndex = this.parentElement.parentElement.dataset.blockIndex;
+          GoatCurry.outputJSON.blocks.splice( blockIndex, 1);
+          this.parentElement.parentElement.remove();
+          this.remove();
+          GoatCurry.jsonUpdated();
+        }
+      });
+
+      moveUpButton.addEventListener( "click", function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+
+        var wrapper = this.parentElement.parentElement;
+        var blockIndex = wrapper.dataset.blockindex;
+        if( blockIndex <= 0 ){ 
+          return false;
+        }
+        var parent = wrapper.parentElement;
+        wrapper.remove();
+
+        parent.insertBefore( wrapper, parent.children[ blockIndex - 1 ] );
+        GoatCurry.modules.moveArray( GoatCurry.outputJSON.blocks, blockIndex, blockIndex - 1 );
+        GoatCurry.jsonUpdated();
+        GoatCurry.modules.recalculateBlockIndex();
+      });
+
+
 
       popUp.appendChild( moveUpButton );
       popUp.appendChild( removeButton );
@@ -81,6 +119,26 @@ export default class Modules {
       moveDownButton.style.background = "transparent";
       moveDownButton.style.cursor = "pointer";
       moveDownButton.style.border = 0;
+
+      moveDownButton.addEventListener( "click", function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        var wrapper = this.parentElement.parentElement;
+        var blockIndex = wrapper.dataset.blockindex;
+        
+        if( blockIndex < 0 ){ 
+          return false;
+        }
+
+        var parent = wrapper.parentElement;
+        wrapper.remove();
+
+        parent.insertBefore( wrapper, parent.children[ blockIndex + 1 ] );
+        GoatCurry.modules.moveArray( GoatCurry.outputJSON.blocks, blockIndex, blockIndex + 1 );
+        GoatCurry.jsonUpdated();
+        GoatCurry.modules.recalculateBlockIndex();
+      });
 
       popUp.appendChild( moveDownButton );
 
@@ -105,6 +163,27 @@ export default class Modules {
       elem.appendChild( htmlTag );
     }
 
+  }
+
+  recalculateBlockIndex() {
+
+    var wrappers = document.querySelectorAll( '.block_wrapper' );
+    wrappers.forEach( ( e,  i ) =>  {
+      e.dataset.blockindex = i;
+    });
+
+
+  }
+
+  moveArray( arr, oldIndex, newIndex ) {
+    if( newIndex >= arr.length ) {
+      var k = newIndex - arr.length + 1;
+      while( k-- ) {
+        arr.push( undefined );
+      }
+    }
+    arr.splice( newIndex, 0, arr.splice( oldIndex, 1 )[0] );
+    return arr;
   }
 
 }
