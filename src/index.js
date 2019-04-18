@@ -4,8 +4,6 @@ import Sizzle from 'sizzle';
 import sanitizeHtml from 'sanitize-html';
 import Modules from './Modules';
 
-console.log( Modules );
-
 "use strict";
 
 class GoatCurry {
@@ -31,7 +29,7 @@ class GoatCurry {
     if( !options.update && typeof options.update === "function" ) {
       this.update = options.update;
     }
-   
+    this.buttonDown = false;
   }
 
   static isString( input ) {
@@ -100,15 +98,11 @@ class GoatCurry {
     console.log( event );
 
     if( !target ) {
-      console.log( 93 );
       return false;
     }
 
-    console.log( target );
-
-    if( target.classList.contains( "editor_button" ) ) {
-      alert( 'tst' );
-      console.log( 99 );
+    if( this.parentContainsClass( target, 'editor_button' )) {
+      console.log( 104 );
       return false;
     }
 
@@ -128,8 +122,6 @@ class GoatCurry {
           this.addEditableArea()
         }
       }
-
-
     }
     else if( !this.parentContainsClass( target, 'block' ) ) {
       console.log( 123 );
@@ -171,14 +163,14 @@ class GoatCurry {
 
       var wrapper = document.createElement( "div" );
       wrapper.classList.add( "block_wrapper" );
+      wrapper.dataset.blockindex = this.outputJSON.blocks.length;
 
-      var optionButton = document.createElement( "div" );
+      var optionButton = document.createElement( "button" );
 
       optionButton.dataset.blockindex = this.outputJSON.blocks.length;
       optionButton.classList.add( "editor_button" );
 
-
-      var moveOptions = document.createElement( "div" );
+      var moveOptions = document.createElement( "button" );
 
       optionButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 30 30" style=" fill:inherit;"><path d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M21,16h-5v5 c0,0.553-0.448,1-1,1s-1-0.447-1-1v-5H9c-0.552,0-1-0.447-1-1s0.448-1,1-1h5V9c0-0.553,0.448-1,1-1s1,0.447,1,1v5h5 c0.552,0,1,0.447,1,1S21.552,16,21,16z"></path></svg>';
 
@@ -188,7 +180,15 @@ class GoatCurry {
       optionButton.style.transform = "translateY( -50% )";
       optionButton.style.cursor = "pointer";
       optionButton.style.zIndex = 999999999;
+      optionButton.style.background = "transparent";
+      optionButton.style.border = 0;
       optionButton.classList.add( "editor_button" );
+
+      optionButton.addEventListener( 'click', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        self.buttonDown = true;
+      });
 
       moveOptions.style.position = "absolute";
       moveOptions.style.right = "-40px";
@@ -196,7 +196,16 @@ class GoatCurry {
       moveOptions.style.transform = "translateY( -50% )";
       moveOptions.style.cursor = "pointer";
       moveOptions.style.zIndex = 999999999;
+      moveOptions.style.background = "transparent";
+      moveOptions.style.border = 0;
       moveOptions.classList.add( "editor_button" );
+
+      moveOptions.addEventListener( 'click', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        self.buttonDown = true;
+        self.modules.handleMoveClick( event, this, self );
+      })
 
       moveOptions.addEventListener( "mouseenter", function(e) {
         this.style.fill = "blue";
@@ -230,7 +239,7 @@ class GoatCurry {
       wrapper.appendChild( moveOptions );
 
       this.editor[0].appendChild( wrapper );
-      this.outputJSON.blocks.push( { "type": "pararaph", "data" : { "text" : "" } } );
+      this.outputJSON.blocks.push( { "type": "paragraph", "data" : { "text" : "" } } );
       this.jsonUpdated();
       node.focus();
     }
@@ -251,8 +260,21 @@ class GoatCurry {
   handleBlur( event, GoatCurry ) {
     var elem = event.target;
     var value = elem.innerHTML;
+    console.log( elem );
     var cleanValue = sanitizeHtml( GoatCurry.stripTags(value), { allowedTags: [] } );
     elem.innerHTML = cleanValue;
+    var optionButton = elem.previousSibling;
+    var moveOptions = elem.nextSibling;
+
+    this.modules.handleBlur( event, elem, GoatCurry );
+
+    setTimeout( function() {
+      if( !GoatCurry.buttonDown ) {
+        optionButton.style.display = "none";
+        moveOptions.style.display = "none";
+      }
+      GoatCurry.buttonDown = false;
+    }, 600);
   }
 
   getPosition( element ) {
@@ -280,7 +302,8 @@ class GoatCurry {
     }
   }
 
-  garbageCollection( target ) {  
+  garbageCollection( target ) { 
+
     if( !target ) {
       console.error( `Could not find ${target}` );   
     }
@@ -289,8 +312,8 @@ class GoatCurry {
     var removed = [];
     for (let item of children) {
       if( !item.children[1].children.length && !item.children[1].innerHTML.trim() ){
-        item.remove();
         removed.push( item.dataset.blockindex );
+        item.remove();
       }
     }
 
@@ -325,11 +348,29 @@ class GoatCurry {
   jsonUpdated() {
     var d = new Date();
     this.outputJSON.time = d.getTime();
-    console.log( this.outputJSON );
+    this.update();
   }
 
   update() {
-    this.doNothing();
+    
+  }
+
+  wrap( query, tag ) {
+    if( typeof query === "object" && query.parentElement ){
+      var elem = query;
+      console.log( elem );
+      const div = document.createElement(tag);
+      elem.parentElement.insertBefore( div, elem );
+      div.appendChild( elem );
+    }
+    else {    
+      document.querySelectorAll( query ).forEach( elem => {
+        const div = document.createElement(tag);
+        elem.parentElement.insertBefore( div, elem );
+        div.appendChild( elem );
+      })
+    }
+
   }
 
 }

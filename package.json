@@ -16,7 +16,6 @@
   "license": "GPL-3.0-only",
   "dependencies": {
     "@babel/polyfill": "^7.4.3",
-    "babel-polyfill": "^6.26.0",
     "extend": "^3.0.2",
     "sanitize-html": "^1.20.0",
     "sizzle": "^2.3.4"
