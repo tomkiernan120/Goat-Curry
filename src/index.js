@@ -134,7 +134,7 @@ class GoatCurry {
         event.stopPropagation();
         self.buttonDown = true;
         self.modules.handleMoveClick( event, this, self );
-      })
+      });
 
       moveOptions.addEventListener( "mouseenter", function(e) {
         this.style.fill = "blue";
@@ -162,11 +162,9 @@ class GoatCurry {
       node.addEventListener( 'blur', () => this.handleBlur( event, this ) );
       node.dataset.blockindex = this.outputJSON.blocks.length;
       this.editor[0].appendChild( optionButton );
-
       wrapper.appendChild( optionButton );
       wrapper.appendChild( node );
       wrapper.appendChild( moveOptions );
-
       this.editor[0].appendChild( wrapper );
       this.outputJSON.blocks.push( { "type": "paragraph", "data" : { "text" : "" } } );
       this.jsonUpdated();

@@ -31,7 +31,7 @@ export default class Modules {
       throw new Error( `Please make sure options for addModuleType is a Obect not ${typeof options}` );
     }
 
-    var AlreadyExists  = false;
+    let AlreadyExists  = false;
 
     this.moduleTypes.map( ( e, i ) => {
       if( e.name == options.name ) {
@@ -44,9 +44,7 @@ export default class Modules {
     }
 
     if( AlreadyExists ) {
-      if( window.console ){
-        console.error( `The module named:${options.name}, already exists.` );
-      }
+      console.error( `The module named:${options.name}, already exists.` );  
       return;
     }
     else {
