@@ -239,15 +239,14 @@ class GoatCurry {
       }
     }
 
-    if( removed.length ) {
-      removed.forEach( ( e, i ) => {
-        console.log( e );
-        if( this.outputJSON.blocks[ e ] ) {
-          this.outputJSON.blocks.splice( e, 1 );
-          this.jsonUpdated();
-        }
-      });
-    }
+    removed.forEach( ( e, i ) => {
+      console.log( e );
+      if( this.outputJSON.blocks[ e ] ) {
+        this.outputJSON.blocks.splice( e, 1 );
+        this.jsonUpdated();
+      }
+    });
+   
   }
 
   update() { // TODO: create extendable function
