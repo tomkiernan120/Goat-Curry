@@ -49,4 +49,33 @@ export default class Helper {
     return { x: pageX, y: pageY };
   }
 
+  static moveArray( arr, oldIndex, newIndex ) {
+    if( newIndex >= arr.length ) {
+      var k = newIndex - arr.length + 1;
+      while( k-- ) {
+        arr.push( undefined );
+      }
+    }
+    arr.splice( newIndex, 0, arr.splice( oldIndex, 1 )[0] );
+    return arr;
+  }
+
+  static parentContainsClass( element, className ) {
+    var isContained = false;
+
+    if( element.classList.contains( className ) ){
+      isContained = true;
+    }
+
+    while( element && !isContained ) {
+      element = element.offsetParent;
+      
+      if( element && element.classList.contains( className ) ) {
+        isContained = true;
+      }
+    }
+
+    return isContained;
+  }
+
 }

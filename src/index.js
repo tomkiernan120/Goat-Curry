@@ -56,10 +56,6 @@ class GoatCurry {
     }
   }
 
-  documentClick( event, GoatCurry ) {
-
-  }
-
   handleClick( event, GoatCurry ) {
     Helper.preventProp(event);
     var target = event.target;
@@ -68,7 +64,7 @@ class GoatCurry {
       return false;
     }
 
-    if( this.parentContainsClass( target, 'editor_button' )) {
+    if( Helper.parentContainsClass( target, 'editor_button' )) {
       return false;
     }
 
@@ -88,7 +84,7 @@ class GoatCurry {
         }
       }
     }
-    else if( !this.parentContainsClass( target, 'block' ) ) {
+    else if( !Helper.parentContainsClass( target, 'block' ) ) {
       this.addEditableArea();
     }
   }
@@ -127,18 +123,14 @@ class GoatCurry {
       optionButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 30 30" style=" fill:inherit;"><path d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M21,16h-5v5 c0,0.553-0.448,1-1,1s-1-0.447-1-1v-5H9c-0.552,0-1-0.447-1-1s0.448-1,1-1h5V9c0-0.553,0.448-1,1-1s1,0.447,1,1v5h5 c0.552,0,1,0.447,1,1S21.552,16,21,16z"></path></svg>';
 
       optionButton.style.cssText = "position:absolute;left:-40px;top: 50%; transform: translateY( -50% ); cursor:pointer;z-index: 999999999; background: transparent; border: 0;";
-
       optionButton.classList.add( "editor_button" );
-
       optionButton.addEventListener( 'click', function(event) {
         Helper.preventProp(event);
         self.buttonDown = true;
       });
 
       moveOptions.style.cssText = "position:absolute;right:-40px;top:50%;transform:translateY( -50% ); z-index: 99999999; background: transparent; border: 0;";
-      
       moveOptions.classList.add( "editor_button" );
-
       moveOptions.addEventListener( 'click', function(event) {
         event.preventDefault();
         event.stopPropagation();
@@ -184,10 +176,6 @@ class GoatCurry {
     }
   }
 
-  handleButtonClick() {
-
-  }
-
   handleFocus( event, GoatCurry ) {
     var elem = event.target;
     var button = elem.previousSibling;
@@ -226,7 +214,6 @@ class GoatCurry {
       if( !GoatCurry.buttonDown ) {
         optionButton.style.display = "none";
         moveOptions.style.display = "none";
-
       }
       GoatCurry.buttonDown = false;
     }, 600);
@@ -282,22 +269,8 @@ class GoatCurry {
     }
   }
 
-  parentContainsClass( element, className ) {
-    var isContained = false;
-
-    if( element.classList.contains( className ) ){
-      isContained = true;
-    }
-
-    while( element && !isContained ) {
-      element = element.offsetParent;
-      
-      if( element && element.classList.contains( className ) ) {
-        isContained = true;
-      }
-    }
-
-    return isContained;
+  update() {
+    
   }
 
   jsonUpdated() {
@@ -306,26 +279,6 @@ class GoatCurry {
     this.update();
   }
 
-  update() {
-    
-  }
-
-  wrap( query, tag ) {
-    if( typeof query === "object" && query.parentElement ){
-      var elem = query;
-      console.log( elem );
-      const div = document.createElement(tag);
-      elem.parentElement.insertBefore( div, elem );
-      div.appendChild( elem );
-    }
-    else {    
-      document.querySelectorAll( query ).forEach( elem => {
-        const div = document.createElement(tag);
-        elem.parentElement.insertBefore( div, elem );
-        div.appendChild( elem );
-      })
-    }
-  }
 }
 
 
