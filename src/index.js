@@ -4,6 +4,7 @@ import Sizzle from 'sizzle';
 import sanitizeHtml from 'sanitize-html';
 import Helper from './Helper';
 import Modules from './Modules';
+import HTML from './HTML';
 
 "use strict";
 
@@ -33,40 +34,8 @@ class GoatCurry {
     this.buttonDown = false;
   }
 
-  static isString( input ) {
-    return typeof input === "string";
-  }
-
-  static isPlainObject( val ) {
-    return !!val && typeof val === 'object' && val.constructor === object;
-  }
-
-  static isBrowser() {
-    return ![typeof window, typeof document].includes( 'undefined' );
-  }
-
-  static isValidJSON( str ) {
-    try{
-      JSON.parse( str );
-      return true;
-    }
-    catch( e ) {
-      return false;
-    }
-  }
-
-  static isArray( val ) {
-    return Array.isArray( val );
-  }
-
-  stripTags( text ) {
-    var tmp = document.createElement( "DIV" );
-    tmp.innerHTML = text;
-    return tmp.textContent || tmp.innerText || "";
-  }
-
   sizzle( selector ) {
-    if( !GoatCurry.isString( selector ) ) {
+    if( !Helper.isString( selector ) ) {
       throw new Error( `The selector you are using is not of the type string: ${selector}` );
     }
     return Sizzle( selector );
@@ -112,7 +81,7 @@ class GoatCurry {
       if( lastItem ) {      
         var position = GoatCurry.getPosition( lastItem );        
         var height = position.y + lastItem.offsetHeight;
-        var clickPositions = this.getClickPosition( event );
+        var clickPositions = Helper.getClickPosition( event );
 
         if( ( height + 10 ) < clickPositions.y ) {
           this.addEditableArea()
@@ -137,19 +106,7 @@ class GoatCurry {
 
   }
 
-  getClickPosition( event ) {
-    event = event || window.event;
 
-    var pageX = event.pageX;
-    var pageY = event.pageY;
-
-    if( pageX === undefined ) {
-      pageX = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-      pageY = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-    }
-
-    return { x: pageX, y: pageY };
-  }
 
   addEditableArea() {
 
@@ -169,14 +126,8 @@ class GoatCurry {
 
       optionButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 30 30" style=" fill:inherit;"><path d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M21,16h-5v5 c0,0.553-0.448,1-1,1s-1-0.447-1-1v-5H9c-0.552,0-1-0.447-1-1s0.448-1,1-1h5V9c0-0.553,0.448-1,1-1s1,0.447,1,1v5h5 c0.552,0,1,0.447,1,1S21.552,16,21,16z"></path></svg>';
 
-      optionButton.style.position = "absolute";
-      optionButton.style.left = "-40px";
-      optionButton.style.top = "50%";
-      optionButton.style.transform = "translateY( -50% )";
-      optionButton.style.cursor = "pointer";
-      optionButton.style.zIndex = 999999999;
-      optionButton.style.background = "transparent";
-      optionButton.style.border = 0;
+      optionButton.style.cssText = "position:absolute;left:-40px;top: 50%; transform: translateY( -50% ); cursor:pointer;z-index: 999999999; background: transparent; border: 0;";
+
       optionButton.classList.add( "editor_button" );
 
       optionButton.addEventListener( 'click', function(event) {
@@ -184,14 +135,8 @@ class GoatCurry {
         self.buttonDown = true;
       });
 
-      moveOptions.style.position = "absolute";
-      moveOptions.style.right = "-40px";
-      moveOptions.style.top = "50%";
-      moveOptions.style.transform = "translateY( -50% )";
-      moveOptions.style.cursor = "pointer";
-      moveOptions.style.zIndex = 999999999;
-      moveOptions.style.background = "transparent";
-      moveOptions.style.border = 0;
+      moveOptions.style.cssText = "position:absolute;right:-40px;top:50%;transform:translateY( -50% ); z-index: 99999999; background: transparent; border: 0;";
+      
       moveOptions.classList.add( "editor_button" );
 
       moveOptions.addEventListener( 'click', function(event) {
@@ -260,7 +205,7 @@ class GoatCurry {
   handleBlur( event, GoatCurry ) {
     var elem = event.target;
     var value = elem.innerHTML;
-    var cleanValue = sanitizeHtml( GoatCurry.stripTags(value), { allowedTags: [] } );
+    var cleanValue = sanitizeHtml( HTML.stripTags(value), { allowedTags: [] } );
     elem.innerHTML = cleanValue;
     var optionButton = elem.previousSibling;
     var moveOptions = elem.nextSibling;
@@ -380,9 +325,7 @@ class GoatCurry {
         div.appendChild( elem );
       })
     }
-
   }
-
 }
 
 
