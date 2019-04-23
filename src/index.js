@@ -72,17 +72,15 @@ class GoatCurry {
 
       this.garbageCollection( target );
 
-      var lastItem = target.children.item( event.target.children.length - 1 );
+      var lastItem = target.children.item( event.target.children.length - 1 );      
+      var position = GoatCurry.getPosition( lastItem );        
+      var height = position.y + lastItem.offsetHeight;
+      var clickPositions = Helper.getClickPosition( event );
 
-      if( lastItem ) {      
-        var position = GoatCurry.getPosition( lastItem );        
-        var height = position.y + lastItem.offsetHeight;
-        var clickPositions = Helper.getClickPosition( event );
-
-        if( ( height + 10 ) < clickPositions.y ) {
-          this.addEditableArea()
-        }
+      if( lastItem && ( height + 10 ) < clickPositions.y ) {
+        this.addEditableArea()
       }
+     
     }
     else if( !Helper.parentContainsClass( target, 'block' ) ) {
       this.addEditableArea();
@@ -269,8 +267,8 @@ class GoatCurry {
     }
   }
 
-  update() {
-    
+  update() { // TODO: create extendable function
+
   }
 
   jsonUpdated() {
