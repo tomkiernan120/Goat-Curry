@@ -30,7 +30,7 @@
     "jshint": "2.10.2",
     "store": "2.0.12",
     "webpack": "4.30.0",
-    "webpack-cli": "3.3.0",
+    "webpack-cli": "3.3.1",
     "webpack-dev-server": "3.3.1"
   },
   "repository": {
