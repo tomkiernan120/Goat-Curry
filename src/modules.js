@@ -1,3 +1,5 @@
+import Helper from './Helper';
+
 export default class Modules {
   constructor( options = {} ) {
     this.options = options;
@@ -75,8 +77,7 @@ export default class Modules {
       removeButton.style.border = 0;
 
       removeButton.addEventListener( "click", function(e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
+        Helper.preventProp(e);
         if( !this.classList.contains( "clicked" ) ) {
           this.classList.add( "clicked" );
           this.style.fill = "red";
@@ -91,8 +92,7 @@ export default class Modules {
       });
 
       moveUpButton.addEventListener( "click", function(e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
+        Helper.preventProp(e);
 
 
         var wrapper = this.parentElement.parentElement;
@@ -121,8 +121,7 @@ export default class Modules {
       moveDownButton.style.border = 0;
 
       moveDownButton.addEventListener( "click", function(e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
+        Helper.preventProp(e);
 
         var wrapper = this.parentElement.parentElement;
         var blockIndex = wrapper.dataset.blockindex;
@@ -151,8 +150,6 @@ export default class Modules {
     var blockIndex = elem.dataset.blockindex;
     var type = GoatCurry.outputJSON.blocks[blockIndex].type;
     var typeCapitalized = type.charAt( 0 ).toUpperCase() + type.slice(1);
-
-    console.log( typeCapitalized );
 
     var tag = this.moduleTypes[ typeCapitalized ].tag;
 
