@@ -6,7 +6,7 @@ export default class HTML {
 
   static stripTags( html ) {
     var tmp = document.createElement( "DIV" );
-    tmp.innerHTML = text;
+    tmp.innerHTML = html;
     return tmp.textContent || tmp.innerText || "";
   }
 

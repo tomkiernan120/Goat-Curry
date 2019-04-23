@@ -52,7 +52,7 @@ class GoatCurry {
         e.addEventListener( 'click', () =>  this.handleClick( event, this ) );
       });
 
-      document.addEventListener( "click", () => this.documentClick( event, this ) );
+      // document.addEventListener( "click", () => this.documentClick( event, this ) );
     }
   }
 
@@ -73,7 +73,7 @@ class GoatCurry {
       this.garbageCollection( target );
 
       var lastItem = target.children.item( event.target.children.length - 1 );      
-      var position = GoatCurry.getPosition( lastItem );        
+      var position = Helper.getPosition( lastItem );        
       var height = position.y + lastItem.offsetHeight;
       var clickPositions = Helper.getClickPosition( event );
 
@@ -100,10 +100,7 @@ class GoatCurry {
 
   }
 
-
-
   addEditableArea() {
-
     var self = this;
     if( this.editor.length ) {
 
@@ -215,19 +212,6 @@ class GoatCurry {
     }, 600);
   }
 
-  getPosition( element ) {
-    var xPosition = 0;
-    var yPosition = 0;
-
-    while( element ) {
-      xPosition += ( element.offsetLeft - element.scrollLeft + element.clientLeft );
-      yPosition += ( element.offsetTop - element.scrollTop + element.clientTop );
-      element = element.offsetParent;
-    }
-
-    return { x: xPosition, y: yPosition };
-  }
-
   init() {
     if( !this.options.selector ) {
       throw new Error( `Please use css selector to set the editor instance` );
@@ -241,7 +225,6 @@ class GoatCurry {
   }
 
   garbageCollection( target ) { 
-
     if( !target ) {
       console.error( `Could not find ${target}` );   
     }
@@ -249,7 +232,8 @@ class GoatCurry {
     var children = target.children;
     var removed = [];
     for (let item of children) {
-      if( !item.children[1].children.length && !item.children[1].innerHTML.trim() ){
+      if( !item.children[1].children.length || !HTML.stripTags(item.children[1].innerHTML.trim()) ){
+        console.log( item.dataset )
         removed.push( item.dataset.blockindex );
         item.remove();
       }
@@ -257,6 +241,7 @@ class GoatCurry {
 
     if( removed.length ) {
       removed.forEach( ( e, i ) => {
+        console.log( e );
         if( this.outputJSON.blocks[ e ] ) {
           this.outputJSON.blocks.splice( e, 1 );
           this.jsonUpdated();
