@@ -2,6 +2,7 @@ import "@babel/polyfill";
 import extend from 'extend';
 import Sizzle from 'sizzle';
 import sanitizeHtml from 'sanitize-html';
+import Helper from './Helper';
 import Modules from './Modules';
 
 "use strict";
@@ -91,8 +92,7 @@ class GoatCurry {
   }
 
   handleClick( event, GoatCurry ) {
-    event.preventDefault();
-    event.stopImmediatePropagation();
+    Helper.preventProp(event);
     var target = event.target;
 
     if( !target ) {
@@ -180,8 +180,7 @@ class GoatCurry {
       optionButton.classList.add( "editor_button" );
 
       optionButton.addEventListener( 'click', function(event) {
-        event.preventDefault();
-        event.stopPropagation();
+        Helper.preventProp(event);
         self.buttonDown = true;
       });
 
