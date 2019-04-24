@@ -4,12 +4,13 @@ import extend from 'extend';
 import Sizzle from 'sizzle';
 import sanitizeHtml from 'sanitize-html';
 import Helper from './Helper';
-import Modules from './Modules/index';
+import Modules from './modules';
 import HTML from './HTML';
 
 class GoatCurry {
   constructor(options = {}) {
     const d = new Date();
+    this.helper = Helper;
     this.options = {};
     this.editor = {};
     this.contentAreas = [];
@@ -22,11 +23,12 @@ class GoatCurry {
       blocks: [],
       version: this.version,
     };
+    this.prettyOutput = {};
     this.jsonUpdated();
     this.init();
-    this.modules = new Modules(this.options);
+    this.modules = new Modules(this);
     this.activeContextMenu = false;
-    if (!options.update && typeof options.update === 'function') {
+    if (options.update && typeof options.update === 'function') {
       this.update = options.update;
     }
     this.buttonDown = false;
@@ -39,10 +41,32 @@ class GoatCurry {
     return Sizzle(selector);
   }
 
+  beautify() {
+    if (typeof this.outputJSON !== 'string') {
+      this.prettyOutput = JSON.stringify(this.outputJSON, undefined, 2);
+    }
+    this.prettyOutput = this.prettyOutput.replace(/&/g, '&amp').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    this.prettyOutput = this.prettyOutput.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g, (match) => {
+      let cls = 'number';
+      if (/^"/.test(match)) {
+        if (/:$/.test(match)) {
+          cls = 'key';
+        } else {
+          cls = 'string';
+        }
+      } else if (/true|false/.test(match)) {
+        cls = 'boolean';
+      } else if (/null/.test(match)) {
+        cls = 'null';
+      }
+      return `<span class="${cls}">${match}</span>`;
+    });
+  }
+
   bindEvents() {
     if (this.editor.length) {
       this.editor.forEach((e) => {
-        e.addEventListener('click', () => this.handleClick());
+        e.addEventListener('click', this.handleClick.bind(this));
       });
 
       // document.addEventListener( "click", () => this.documentClick( event, this ) );
@@ -67,6 +91,7 @@ class GoatCurry {
       const position = Helper.getPosition(lastItem);
       const height = position.y + lastItem.offsetHeight;
       const clickPositions = Helper.getClickPosition(event);
+
 
       if (lastItem && (height + 10) < clickPositions.y) {
         this.addEditableArea();
@@ -93,11 +118,11 @@ class GoatCurry {
     if (this.editor.length) {
       const wrapper = document.createElement('div');
       wrapper.classList.add('block_wrapper');
-      wrapper.dataset.blockindex = this.outputJSON.blocks.length;
+      wrapper.dataset.blockindex = self.outputJSON.blocks.length;
 
       const optionButton = document.createElement('button');
 
-      optionButton.dataset.blockindex = this.outputJSON.blocks.length;
+      optionButton.dataset.blockindex = self.outputJSON.blocks.length;
       optionButton.classList.add('editor_button');
 
       const moveOptions = document.createElement('button');
@@ -114,26 +139,26 @@ class GoatCurry {
       moveOptions.style.cssText = 'position:absolute;right:-40px;top:50%;transform:translateY( -50% ); z-index: 99999999; background: transparent; border: 0;';
       moveOptions.classList.add('editor_button');
 
-      moveOptions.addEventListener('click', (event) => {
+      moveOptions.addEventListener('click', function (event) {
         event.preventDefault();
         event.stopPropagation();
         self.buttonDown = true;
         self.modules.handleMoveClick(event, this, self);
       });
 
-      moveOptions.addEventListener('mouseenter', () => {
+      moveOptions.addEventListener('mouseenter', function () {
         this.style.fill = 'blue';
       });
 
-      moveOptions.addEventListener('mouseleave', () => {
+      moveOptions.addEventListener('mouseleave', function () {
         this.style.fill = 'black';
       });
 
-      optionButton.addEventListener('mouseenter', () => {
+      optionButton.addEventListener('mouseenter', function () {
         this.style.fill = 'blue';
       });
 
-      optionButton.addEventListener('mouseleave', () => {
+      optionButton.addEventListener('mouseleave', function () {
         this.style.fill = 'black';
       });
 
@@ -142,9 +167,9 @@ class GoatCurry {
       const node = document.createElement('div');
       node.setAttribute('contenteditable', true);
       node.classList.add('block');
-      node.addEventListener('input', () => this.handleInput());
-      node.addEventListener('focus', () => this.handleFocus());
-      node.addEventListener('blur', () => this.handleBlur());
+      node.addEventListener('input', this.handleInput.bind(this));
+      node.addEventListener('focus', this.handleFocus.bind(this));
+      node.addEventListener('blur', this.handleBlur.bind(this));
       node.dataset.blockindex = this.outputJSON.blocks.length;
       this.editor[0].appendChild(optionButton);
       wrapper.appendChild(optionButton);
@@ -165,7 +190,7 @@ class GoatCurry {
 
     if (moveOptions.nodeName === 'DIV') {
       moveOptions.remove();
-      moveOptions = target.nextSibling();
+      moveOptions = target.nextSibling;
     }
 
     moveOptions.style.display = 'block';
@@ -206,7 +231,7 @@ class GoatCurry {
       throw new Error('Please use css selector to set the editor instance');
     }
 
-    this.editor = this.sizzle(this.options.selector);
+    this.editor = GoatCurry.sizzle(this.options.selector);
 
     if (this.editor.length) { // TODO: extend so you can have multiple instances;
       this.bindEvents();
@@ -217,7 +242,8 @@ class GoatCurry {
     const { children } = target;
     const removed = [];
 
-    children.forEach((e) => {
+
+    Array.from(children).forEach((e) => {
       if (!e.children[1].children.length || !HTML.stripTags(e.children[1].innerHTML.trim())) {
         removed.push(e.dataset.blockindex);
         e.remove();
@@ -239,7 +265,8 @@ class GoatCurry {
   jsonUpdated() {
     const d = new Date();
     this.outputJSON.time = d.getTime();
-    this.update();
+    this.beautify();
+    this.update(this.prettyOutput);
   }
 }
 

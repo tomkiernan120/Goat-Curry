@@ -81,3 +81,17 @@ section.centred{
   border-radius: 18px;
   font-family: 'Roboto', sans-serif; 
 }
+
+pre {
+    outline: 1px solid #ccc;
+    padding: 25px;
+    /* margin: 5px; */
+    background: #000;
+    color: #fff;
+    border-radius: 8px;
+}
+.string { color: #3dd63d; }
+.number { color: #ee8505; }
+.boolean { color: blue; }
+.null { color: magenta; }
+.key { color: #ff6060; }

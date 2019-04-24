@@ -10,7 +10,7 @@ export default class Helper {
   }
 
   static isPlainObject(val) {
-    return !!val && typeof val === 'object' && val.constructor === 'object';
+    return !!val && typeof val === 'object';
   }
 
   static isBrowser() {

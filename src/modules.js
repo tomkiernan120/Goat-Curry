@@ -2,8 +2,8 @@
 import Helper from './Helper';
 
 export default class Modules {
-  constructor(options = {}) {
-    this.options = options;
+  constructor(GoatCurry = {}) {
+    this.options = GoatCurry.options;
 
     this.moduleTypes = {
       Heading: {
@@ -25,6 +25,8 @@ export default class Modules {
 
       },
     };
+
+    this.goatcurry = GoatCurry;
   }
 
   addModuleType(options = {}) {
@@ -68,7 +70,7 @@ export default class Modules {
       removeButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 24 24" style=" fill:inherit;"><path style="line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal" d="M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z" font-weight="400" font-family="sans-serif" white-space="normal" overflow="visible"></path></svg>';
       removeButton.style.cssText = 'background:transparent; cursor:pointer; border: 0;';
 
-      removeButton.addEventListener('click', () => this.removeButton(GoatCurry));
+      removeButton.addEventListener('click', this.removeButton.bind(this));
 
       moveUpButton.addEventListener('click', (e) => {
         Helper.preventProp(e);
@@ -122,31 +124,32 @@ export default class Modules {
     }
   }
 
-  removeButton(e, GoatCurry) {
+  removeButton(e) {
     Helper.preventProp(e);
-    if (!this.classList.contains('clicked')) {
-      this.classList.add('clicked');
-      this.style.fill = 'red';
+    const elem = e.currentTarget;
+    if (!elem.classList.contains('clicked')) {
+      elem.classList.add('clicked');
+      elem.style.fill = 'red';
     } else {
-      const { blockIndex } = this.parentElement.parentElement.dataset;
-      GoatCurry.outputJSON.blocks.splice(blockIndex, 1);
-      this.parentElement.parentElement.remove();
-      this.remove();
-      GoatCurry.jsonUpdated();
+      const { blockindex } = elem.parentElement.parentElement.dataset;
+      this.goatcurry.outputJSON.blocks.splice(blockindex, 1);
+      elem.parentElement.parentElement.remove();
+      elem.remove();
+      this.goatcurry.jsonUpdated();
     }
   }
 
-  handleBlur(event, elem, GoatCurry) {
-    const newElem = elem;
-    const { blockIndex } = elem.dataset;
-    const { type } = GoatCurry.outputJSON.blocks[blockIndex];
+  handleBlur(event) {
+    const newElem = event.currentTarget;
+    const { blockindex } = newElem.dataset;
+    const { type } = this.goatcurry.outputJSON.blocks[blockindex];
     const typeCapitalized = type.charAt(0).toUpperCase() + type.slice(1);
 
     const { tag } = this.moduleTypes[typeCapitalized];
 
     if (tag) {
       const htmlTag = document.createElement(tag);
-      htmlTag.innerHTML = elem.innerHTML;
+      htmlTag.innerHTML = newElem.innerHTML;
       newElem.innerHTML = '';
       newElem.appendChild(htmlTag);
     }
