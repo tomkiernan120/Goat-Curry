@@ -92,7 +92,6 @@ class GoatCurry {
       const height = position.y + lastItem.offsetHeight;
       const clickPositions = Helper.getClickPosition(event);
 
-
       if (lastItem && (height + 10) < clickPositions.y) {
         this.addEditableArea();
       }
@@ -131,9 +130,10 @@ class GoatCurry {
 
       optionButton.style.cssText = 'position:absolute;left:-40px;top: 50%; transform: translateY( -50% ); cursor:pointer;z-index: 999999999; background: transparent; border: 0;';
       optionButton.classList.add('editor_button');
-      optionButton.addEventListener('click', (event) => {
+      optionButton.addEventListener('click', function (event) {
         Helper.preventProp(event);
         self.buttonDown = true;
+        self.modules.handleOptionClick(event, this, self);
       });
 
       moveOptions.style.cssText = 'position:absolute;right:-40px;top:50%;transform:translateY( -50% ); z-index: 99999999; background: transparent; border: 0;';
@@ -241,7 +241,6 @@ class GoatCurry {
   garbageCollection(target) {
     const { children } = target;
     const removed = [];
-
 
     Array.from(children).forEach((e) => {
       if (!e.children[1].children.length || !HTML.stripTags(e.children[1].innerHTML.trim())) {
