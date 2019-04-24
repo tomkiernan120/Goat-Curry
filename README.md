@@ -54,7 +54,7 @@ Code style I have chosen to use [Airbnb's Javascript style guide](https://github
 
 Actively Looking for contributors :)
 
-Please read [CONTRIBUTING.md](https://github.com/tomkiernan120/Goat-Curry/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://github.com/tomkiernan120/Goat-Curry/blob/master/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
@@ -63,7 +63,7 @@ Note: Yet to fully realise version 1.0.0
 
 ## Authors
 
-* **Tom Kiernan** - *Initial work* - [PurpleBooth](https://github.com/tomkiernan120)
+* **Tom Kiernan** - *Initial work* - [Tom Kiernan](https://github.com/tomkiernan120)
 
 ## License
 
