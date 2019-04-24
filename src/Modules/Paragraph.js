@@ -1,7 +1,5 @@
 export default class Paragraph {
-
-  constructor() {
-    
+  render() {
+    return true;
   }
-
 }

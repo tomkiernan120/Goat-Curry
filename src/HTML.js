@@ -1,13 +1,8 @@
+/* eslint linebreak-style: ["error", "windows"] */
 export default class HTML {
-
-  constructor() {
-
-  }
-
-  static stripTags( html ) {
-    var tmp = document.createElement( "DIV" );
+  static stripTags(html) {
+    const tmp = document.createElement('DIV');
     tmp.innerHTML = html;
-    return tmp.textContent || tmp.innerText || "";
+    return tmp.textContent || tmp.innerText || '';
   }
-
 }

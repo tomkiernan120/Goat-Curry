@@ -1,76 +1,72 @@
+/* eslint linebreak-style: ["error", "windows"] */
 export default class Helper {
-
-  constructor() {
-
-  }
-
-  static preventProp( event ) {
+  static preventProp(event) {
     event.preventDefault();
     event.stopImmediatePropagation();
   }
 
-  static isString( input ) {
-    return typeof input === "string";
+  static isString(input) {
+    return typeof input === 'string';
   }
 
-  static isPlainObject( val ) {
-    return !!val && typeof val === 'object' && val.constructor === object;
+  static isPlainObject(val) {
+    return !!val && typeof val === 'object' && val.constructor === 'object';
   }
 
   static isBrowser() {
-    return ![typeof window, typeof document].includes( 'undefined' );
+    return ![typeof window, typeof document].includes('undefined');
   }
 
-  static isValidJSON( str ) {
-    try{
-      JSON.parse( str );
+  static isValidJSON(str) {
+    try {
+      JSON.parse(str);
       return true;
-    }
-    catch( e ) {
+    } catch (e) {
       return false;
     }
   }
 
-  static isArray( val ) {
-    return Array.isArray( val );
+  static isArray(val) {
+    return Array.isArray(val);
   }
 
-  static getClickPosition( event ) {
-    event = event || window.event;
+  static getClickPosition(event) {
+    const currentEvent = event || window.event;
 
-    const pageX = event.pageX;
-    const pageY = event.pageY;
+    let { pageX } = currentEvent;
+    let { pageY } = currentEvent;
 
-    if( pageX === undefined ) {
-      pageX = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-      pageY = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+    if (pageX === undefined) {
+      pageX = currentEvent.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+      pageY = currentEvent.clientY + document.body.scrollTop + document.documentElement.scrollTop;
     }
 
     return { x: pageX, y: pageY };
   }
 
-  static moveArray( arr, oldIndex, newIndex ) {
-    if( newIndex >= arr.length ) {
-      var k = newIndex - arr.length + 1;
-      while( k-- ) {
-        arr.push( undefined );
+  static moveArray(arr, oldIndex, newIndex) {
+    if (newIndex >= arr.length) {
+      let k = newIndex - arr.length + 1;
+      while (k) {
+        k -= 1;
+        arr.push(undefined);
       }
     }
-    arr.splice( newIndex, 0, arr.splice( oldIndex, 1 )[0] );
+    arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
     return arr;
   }
 
-  static parentContainsClass( element, className ) {
-    var isContained = false;
+  static parentContainsClass(element, className) {
+    let isContained = false;
+    let newElement = element;
 
-    if( element.classList.contains( className ) ){
+    if (newElement.classList.contains(className)) {
       isContained = true;
     }
 
-    while( element && !isContained ) {
-      element = element.offsetParent;
-      
-      if( element && element.classList.contains( className ) ) {
+    while (newElement && !isContained) {
+      newElement = newElement.offsetParent;
+      if (newElement && newElement.classList.contains(className)) {
         isContained = true;
       }
     }
@@ -78,17 +74,18 @@ export default class Helper {
     return isContained;
   }
 
-  static getPosition( element ) {
+  static getPosition(element) {
     let xPosition = 0;
     let yPosition = 0;
 
-    while( element ) {
-      xPosition += ( element.offsetLeft - element.scrollLeft + element.clientLeft );
-      yPosition += ( element.offsetTop - element.scrollTop + element.clientTop );
-      element = element.offsetParent;
+    let newElement = element;
+
+    while (newElement) {
+      xPosition += (newElement.offsetLeft - newElement.scrollLeft + newElement.clientLeft);
+      yPosition += (newElement.offsetTop - newElement.scrollTop + newElement.clientTop);
+      newElement = newElement.offsetParent;
     }
 
     return { x: xPosition, y: yPosition };
   }
-
 }
