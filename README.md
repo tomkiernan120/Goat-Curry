@@ -52,6 +52,8 @@ Code style I have chosen to use [Airbnb's Javascript style guide](https://github
 
 ## Contributing
 
+Actively Looking for contributors :)
+
 Please read [CONTRIBUTING.md](https://github.com/tomkiernan120/Goat-Curry/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
