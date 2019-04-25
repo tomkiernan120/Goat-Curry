@@ -136,7 +136,7 @@ class GoatCurry {
         self.modules.handleOptionClick(event, this, self);
       });
 
-      moveOptions.style.cssText = 'position:absolute;right:-40px;top:50%;transform:translateY( -50% ); z-index: 99999999; background: transparent; border: 0;';
+      moveOptions.style.cssText = 'position:absolute;cursor:pointer;right:-40px;top:50%;transform:translateY( -50% ); z-index: 99999999; background: transparent; border: 0;';
       moveOptions.classList.add('editor_button');
 
       moveOptions.addEventListener('click', function (event) {
@@ -242,11 +242,15 @@ class GoatCurry {
     const { children } = target;
     const removed = [];
 
-    Array.from(children).forEach((e) => {
-      if (!e.children[1].children.length || !HTML.stripTags(e.children[1].innerHTML.trim())) {
-        removed.push(e.dataset.blockindex);
-        e.remove();
-      }
+    [...children].forEach((e) => {
+      [...e.children].forEach((item) => {
+        if (item.classList.contains('block')) {
+          if (!item.children.length || !HTML.stripTags(item.innerHTML.trim())) {
+            removed.push(e.dataset.blockindex);
+            e.remove();
+          }
+        }
+      });
     });
 
     removed.forEach((e) => {
@@ -255,6 +259,18 @@ class GoatCurry {
         this.jsonUpdated();
       }
     });
+
+    this.outputJSON.blocks.forEach((e, i) => {
+      if (!e.data.text && !document.querySelector(`[data-blockindex="${i}"]`)) {
+        this.outputJSON.blocks.splice(i, 1);
+      }
+    });
+
+    const options = document.querySelector('.option');
+    console.log(options);
+    if (options) {
+      options.remove();
+    }
   }
 
   update() { // TODO: create extendable function

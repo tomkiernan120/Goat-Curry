@@ -1,5 +1,5 @@
 export default class Paragraph {
-  render() {
-    return true;
+  static render() {
+
   }
 }
