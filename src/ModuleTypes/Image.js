@@ -1,5 +1,7 @@
-export default class Image {
+class Image {
   static render() {
 
   }
 }
+
+module.exports = Image;

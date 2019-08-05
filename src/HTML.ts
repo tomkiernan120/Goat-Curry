@@ -1,8 +1,11 @@
 /* eslint linebreak-style: ["error", "windows"] */
-export default class HTML {
-  static stripTags(html) {
+class HTML {
+  static stripTags(html: string) {
     const tmp = document.createElement('DIV');
     tmp.innerHTML = html;
     return tmp.textContent || tmp.innerText || '';
   }
 }
+
+
+module.exports = HTML;

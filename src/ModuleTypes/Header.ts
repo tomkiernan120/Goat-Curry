@@ -1,7 +1,7 @@
-import Helper from '../Helper';
-import HTML from '../HTML';
+var Helper = require('../Helper' );
+var HTML = require('../HTML' );
 
-export default class Header {
+class Header {
   static render(...args) {
     console.log(args);
     const [event, GoatCurry] = args;
@@ -40,3 +40,6 @@ export default class Header {
     }
   }
 }
+
+
+module.exports = Header;

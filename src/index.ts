@@ -1,40 +1,48 @@
 /* eslint linebreak-style: ["error", "windows"] */
-import '@babel/polyfill';
-import extend from 'extend';
-import Sizzle from 'sizzle';
-import sanitizeHtml from 'sanitize-html';
-import Helper from './Helper';
-import Modules from './modules';
-import HTML from './HTML';
+require( '@babel/polyfill' );
+var extend = require( 'extend' );
+var Sizzle = require( 'sizzle');
+var sanitizeHtml = require('sanitize-html');
+var Helper = require('./Helper');
+var Modules = require('./modules');
+var HTML = require('./HTML');
 
 class GoatCurry {
+  helper: Object;
+  options: Object;
+  editor: Object[];
+  contentAreas: Object[];
+  version: String;
+  outputJSON: Object;
+  prettyOutput: String;
+  modules: Object;
+  activeContextMenu: Boolean;
+  buttonDown: Boolean;
   constructor(options = {}) {
     const d = new Date();
     this.helper = Helper;
-    this.options = {};
-    this.editor = {};
+    this.options = {}
+    this.editor = [];
     this.contentAreas = [];
-    this.options.selector = '';
     this.version = '1.0.0';
-    this.options.version = '1.0.0';
     this.options = extend(true, this.options, options);
     this.outputJSON = {
       time: d.getTime(),
       blocks: [],
       version: this.version,
     };
-    this.prettyOutput = {};
+    this.prettyOutput = '';
     this.jsonUpdated();
     this.init();
     this.modules = new Modules(this);
     this.activeContextMenu = false;
-    if (options.update && typeof options.update === 'function') {
-      this.update = options.update;
-    }
+    // if (options.update && typeof options.update === 'function') {
+    //   this.update = options.update;
+    // }
     this.buttonDown = false;
   }
 
-  static sizzle(selector) {
+  static sizzle( selector: string ) {
     if (!Helper.isString(selector)) {
       throw new Error(`The selector you are using is not of the type string: ${selector}`);
     }
@@ -73,7 +81,7 @@ class GoatCurry {
     }
   }
 
-  handleClick(event) {
+  handleClick( {( event: ClickEvent ): void }) {
     Helper.preventProp(event);
     const { target } = event;
 

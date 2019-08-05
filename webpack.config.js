@@ -3,7 +3,7 @@ const path = require( "path" );
 var config = {
   mode: 'development',
   entry: {
-    index: "./src/index.js"
+    index: "./src/index.ts"
   },
   output: {
     filename: "[name].bundle.js",
@@ -26,15 +26,9 @@ var config = {
   module: {
     rules: [
       {
-        enforce: 'pre',
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'eslint-loader',
-          options: {
-            fix: true
-          }
-        }
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
       },
       {
         test: /\.m?js$/,
@@ -47,7 +41,10 @@ var config = {
         }
       }
     ]
-  }
+  },
+  resolve: {
+    extensions: [ '.tsx', '.ts', '.js' ]
+  },
 };
 
 module.exports = config;

@@ -1,5 +1,5 @@
 /* eslint linebreak-style: ["error", "windows"] */
-export default class Helper {
+class Helper {
   static preventProp(event) {
     event.preventDefault();
     event.stopImmediatePropagation();
@@ -89,3 +89,5 @@ export default class Helper {
     return { x: xPosition, y: yPosition };
   }
 }
+
+module.exports = Helper;

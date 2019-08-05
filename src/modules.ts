@@ -1,11 +1,11 @@
 /* eslint linebreak-style: ["error", "windows"] */
-import Helper from './Helper';
+var Helper = require('./Helper');
 
-import {
+const {
   Header, Paragraph, Image, List, Link, Quote,
-} from './ModuleTypes';
+} = require( './ModuleTypes' );
 
-export default class Modules {
+class Modules {
   constructor(GoatCurry = {}) {
     this.options = GoatCurry.options;
 
@@ -216,3 +216,5 @@ export default class Modules {
     });
   }
 }
+
+module.exports = Modules;

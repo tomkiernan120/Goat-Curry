@@ -1,11 +1,11 @@
 /* eslint linebreak-style: ["error", "windows"] */
-import Header from './Header';
-import Paragraph from './Paragraph';
-import Image from './Image';
-import List from './List';
-import Link from './Link';
-import Quote from './Quote';
+var Header = require( './Header' );
+var Paragraph = require( './Paragraph' );
+var Image = require( './Image' );
+var List = require( './List' );
+var Link = require( './Link' );
+var Quote = require( './Quote' );
 
-export {
+module.exports =  {
   Header, Paragraph, Image, List, Link, Quote,
 };
