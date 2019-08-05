@@ -42,7 +42,7 @@
     "eslint": "5.16.0",
     "eslint-config-airbnb-base": "13.1.0",
     "eslint-loader": "2.1.2",
-    "eslint-plugin-import": "2.17.2",
+    "eslint-plugin-import": "2.18.2",
     "jasmine": "3.4.0",
     "jshint": "2.10.2",
     "qunit": "2.9.2",
