@@ -1,12 +1,11 @@
 /* eslint linebreak-style: ["error", "windows"] */
-var Helper = require('./Helper');
-
-const {
-  Header, Paragraph, Image, List, Link, Quote,
-} = require( './ModuleTypes' );
+const { Paragraph, List, Link, Quote } = require( './ModuleTypes' );
 
 class Modules {
-  constructor(GoatCurry = {}) {
+  options: Object;
+  moduleTypes: Object;
+  goatcurry: any;
+  constructor( GoatCurry = {} ) {
     this.options = GoatCurry.options;
 
     this.moduleTypes = {
@@ -50,7 +49,7 @@ class Modules {
     this.goatcurry = GoatCurry;
   }
 
-  addModuleType(options = {}) {
+  addModuleType( options = {} ) {
     if (typeof options !== 'object') {
       throw new Error(`Please make sure options for addModuleType is a Obect not ${typeof options}`);
     }

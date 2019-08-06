@@ -48,7 +48,7 @@
         "webpack-env"
     ],                           /* Type declaration files to be included in compilation. */
     "allowSyntheticDefaultImports": true,     /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
-    "esModuleInterop": true                   /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
+    "esModuleInterop": true ,                 /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
     // "preserveSymlinks": true,              /* Do not resolve the real path of symlinks. */
     // "allowUmdGlobalAccess": true,          /* Allow accessing UMD globals from modules. */
 
@@ -61,5 +61,19 @@
     /* Experimental Options */
     // "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
-  }
+  },
+  "files": [
+    "src/index.ts",
+    "src/Helper.ts",
+    "src/modules.ts",
+    "src/HTML.ts",
+    "src/ModuleTypes/index.ts",
+    "src/ModuleTypes/Header.ts",
+    "src/ModuleTypes/Image.ts",
+    "src/ModuleTypes/Link.ts",
+    "src/ModuleTypes/Link.ts",
+    "src/ModuleTypes/List.ts",
+    "src/ModuleTypes/Paragraph.ts",
+    "src/ModuleTypes/Quote.ts",
+  ]
 }

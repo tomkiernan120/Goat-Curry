@@ -73,9 +73,13 @@ class GoatCurry {
 
   bindEvents() {
     if (this.editor.length) {
-      this.editor.forEach((e) => {
-        e.addEventListener('click', this.handleClick.bind(this));
-      });
+
+      for( let element of this.editor ) {
+        element.addEventListener('click', this.handleClick.bind( (e:Event) => this.handleClick(e) ));
+        
+      }
+      // this.editor.forEach((e:Event) => {
+      // });
 
       // document.addEventListener( "click", () => this.documentClick( event, this ) );
     }
