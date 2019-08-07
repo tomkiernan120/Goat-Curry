@@ -1,5 +1,5 @@
 /* eslint linebreak-style: ["error", "windows"] */
-class HTML {
+class HTMLHandler {
   static stripTags(html: string) {
     const tmp = document.createElement('DIV');
     tmp.innerHTML = html;
@@ -8,4 +8,6 @@ class HTML {
 }
 
 
-module.exports = HTML;
+module.exports = HTMLHandler;
+
+export default HTMLHandler;

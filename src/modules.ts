@@ -1,11 +1,19 @@
 /* eslint linebreak-style: ["error", "windows"] */
-const { Paragraph, List, Link, Quote } = require( './ModuleTypes' );
+const GoatCurry = require( './index' );
+const Helper = require( './Helper' );
+const Header = require( './ModuleTypes/Header' );
+const Paragraph = require( './ModuleTypes/Paragraph' );
+const Image = require( './ModuleTypes/Image' );
+const List = require( './ModuleTypes/List' );
+const Link = require( './ModuleTypes/Link' );
+const Quote = require( './ModuleTypes/Quote' );
 
 class Modules {
   options: Object;
-  moduleTypes: Object;
+  moduleTypes: any;
   goatcurry: any;
-  constructor( GoatCurry = {} ) {
+  parentElement: any;
+  constructor( GoatCurry: any ) {
     this.options = GoatCurry.options;
 
     this.moduleTypes = {
@@ -49,14 +57,14 @@ class Modules {
     this.goatcurry = GoatCurry;
   }
 
-  addModuleType( options = {} ) {
+  addModuleType( options: any ) {
     if (typeof options !== 'object') {
       throw new Error(`Please make sure options for addModuleType is a Obect not ${typeof options}`);
     }
 
     let AlreadyExists = false;
 
-    this.moduleTypes.forEach((e) => {
+    this.moduleTypes.forEach(( e:any ) => {
       if (e.name === options.name) {
         AlreadyExists = true;
       }
@@ -74,8 +82,8 @@ class Modules {
     return this.moduleTypes;
   }
 
-  handleMoveClick(event, elem, GoatCurry) {
-    if (!elem.classList.contains('active')) {
+  handleMoveClick( event: Event, elem: HTMLElement, GoatCurry: GoatCurry ): void {
+    if ( elem && !elem.classList.contains('active')) {
       elem.classList.add('active');
 
       const popUp = document.createElement('div');
@@ -140,16 +148,22 @@ class Modules {
 
       popUp.appendChild(moveDownButton);
 
-      elem.parentNode.insertBefore(popUp, elem);
+      if( elem ) {
+        elem.parentNode.insertBefore( popUp, elem );
+      }
     }
   }
 
-  handleOptionClick(event, elem) {
+  handleOptionClick(event: Event, elem: HTMLElement ) {
     const popup = document.createElement('div');
     popup.classList.add('option');
     const { length } = Object.keys(this.moduleTypes);
     popup.style.cssText = `background:#fff;width:250px;height:50px;position:absolute;top:0;left:0;z-index:99999999999;box-shadow: rgba(0, 0, 0, 0.2) 4px 5px 24px 2px;display:grid;grid-template-columns: repeat( ${length}, 1fr );`;
-    elem.parentNode.insertBefore(popup, elem);
+    
+    if( elem ) {
+      elem.parentNode.insertBefore(popup, elem);
+    }
+
 
     const entries = Object.entries(this.moduleTypes);
 
@@ -177,25 +191,31 @@ class Modules {
     return this;
   }
 
-  removeButton(e) {
+  removeButton( e: Event ) {
     Helper.preventProp(e);
-    const elem = e.currentTarget;
+    const elem = e.currentTarget as HTMLElement;
     if (!elem.classList.contains('clicked')) {
       elem.classList.add('clicked');
       elem.style.fill = 'red';
-    } else {
+    } 
+    else {
       const { blockindex } = elem.parentElement.parentElement.dataset;
+      if( !elem ) {
+        return false;
+      }
       this.goatcurry.outputJSON.blocks.splice(blockindex, 1);
-      elem.parentElement.parentElement.remove();
-      elem.remove();
+      if( elem ) {
+        elem.parentElement.parentElement.remove();
+        elem.remove();
+      }
       this.goatcurry.jsonUpdated();
     }
   }
 
-  handleBlur(event) {
-    const newElem = event.currentTarget;
+  handleBlur( event: Event ) {
+    const newElem = event.currentTarget as HTMLElement;
     const { blockindex } = newElem.dataset;
-    const { type } = this.goatcurry.outputJSON.blocks[blockindex];
+    const { type } = this.goatcurry.outputJSON.blocks[ blockindex ];
     const typeCapitalized = type.charAt(0).toUpperCase() + type.slice(1);
 
     const { tag } = this.moduleTypes[typeCapitalized];
@@ -217,3 +237,5 @@ class Modules {
 }
 
 module.exports = Modules;
+
+export default Modules;
