@@ -1,5 +1,6 @@
 /* eslint linebreak-style: ["error", "windows"] */
 const GoatCurry = require( './index' );
+const HTMLHandler = require( './HTMLHandler' );
 const Helper = require( './Helper' );
 const Header = require( './ModuleTypes/Header' );
 const Paragraph = require( './ModuleTypes/Paragraph' );
@@ -100,12 +101,12 @@ class Modules {
 
       removeButton.addEventListener('click', this.removeButton.bind(this));
 
-      moveUpButton.addEventListener('click', (e) => {
+      moveUpButton.addEventListener('click', ( e: any ) => {
         Helper.preventProp(e);
 
-        debugger;
+        const target = e.currentTarget;
 
-        const wrapper = this.parentElement.parentElement;
+        const wrapper = target.parentElement.parentElement;
         const blockIndex = wrapper.dataset.blockindex;
         if (blockIndex <= 0) {
           return false;
@@ -128,12 +129,11 @@ class Modules {
 
       moveDownButton.style.cssText = 'background: transparent; cursor:pointer; border: 0;';
 
-      moveDownButton.addEventListener('click', (e: Event) => {
+      moveDownButton.addEventListener('click', (e: any) => {
+
         Helper.preventProp(e);
 
         const target = e.currentTarget;
-
-        console.log( target );
 
         if( !target ) {
           return false;
@@ -174,12 +174,11 @@ class Modules {
       elem.parentNode.insertBefore(popup, elem);
     }
 
-
     const entries = Object.entries(this.moduleTypes);
-
+    console.log( entries )
     entries.forEach(( e: any ) => {
-      console.log( e );
-      const property = e.property;
+      const name = e[0];
+      const property = e[1];
       const button = document.createElement('button');
 
       const icon: any = property.icon
@@ -231,22 +230,27 @@ class Modules {
   }
 
   handleBlur( event: Event ) {
+    console.log( event );
     const newElem = event.currentTarget as HTMLElement;
+    console.log( newElem );
     const blockindex: any = newElem.dataset.blockindex;
+    console.log( blockindex );
     const { type } = this.goatcurry.outputJSON.blocks[ blockindex ];
+    console.log( type );
     const typeCapitalized = type.charAt(0).toUpperCase() + type.slice(1);
+    console.log( type );
 
     const { tag } = this.moduleTypes[typeCapitalized];
 
     if (tag) {
       const htmlTag = document.createElement(tag);
-      htmlTag.innerHTML = newElem.innerHTML;
+      htmlTag.innerHTML = HTMLHandler.stripTags( newElem.innerHTML );
       newElem.innerHTML = '';
       newElem.appendChild(htmlTag);
     }
   }
 
-  static recalculateBlockIndex() {
+  recalculateBlockIndex() {
     const wrappers = document.querySelectorAll('.block_wrapper');
     wrappers.forEach(( e: any, i: number ) => {
       e.dataset.blockindex = i;

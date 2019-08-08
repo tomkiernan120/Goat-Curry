@@ -3,7 +3,7 @@ const Helper = require( "../Helper" );
  
 class Header {
   static render( ...args: any) {
-    console.log(args);
+    console.log( 'test' )
     const [event, GoatCurry] = args;
     Helper.preventProp(event);
     let { currentTarget } = event;
@@ -17,11 +17,15 @@ class Header {
     const { children } = currentTarget;
     let item: any;
 
-    [...children].forEach((e) => {
-      if (e.classList.contains('block')) {
-        item = e;
+    if( children.length ) {
+      for( let i = 0; i < children.length; i++ ) {
+        console.log( children[i] )
+        if( children[i].classList.contains( 'block' ) ) {
+          item = children[i];
+        }
       }
-    });
+    }
+
 
     if( typeof item === "undefined" || !item ) {
       return false;

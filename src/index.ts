@@ -6,6 +6,7 @@ var sanitizeHtml = require('sanitize-html');
 var Helper = require('./Helper');
 var Modules = require('./modules');
 var HTMLHandler = require('./HTMLHandler');
+var config = require('./config');
 
 class GoatCurry {
   helper: Object;
@@ -78,10 +79,6 @@ class GoatCurry {
           element.addEventListener( 'click', this.handleClick.bind( this ));
         }
       }
-      // this.editor.forEach((e:Event) => {
-      // });
-
-      // document.addEventListener( "click", () => this.documentClick( event, this ) );
     }
   }
 
@@ -110,8 +107,9 @@ class GoatCurry {
       if (lastItem && (height + 10) < clickPositions.y) {
         this.addEditableArea();
       }
-    } else if (!Helper.parentContainsClass(target, 'block')) {
-      console.log();
+    } 
+    else if (!Helper.parentContainsClass(target, 'block')) {
+      
       this.addEditableArea();
     }
     return this;
@@ -126,7 +124,7 @@ class GoatCurry {
     const value = elem.innerHTML;
 
     if (blockIndex && this.outputJSON.blocks.length && this.outputJSON.blocks[blockIndex]) {
-      this.outputJSON.blocks[blockIndex].data.text = sanitizeHtml(value, { allowedTags: [] });
+      this.outputJSON.blocks[blockIndex].data.text = sanitizeHtml(value, config.default.sanitizehtml );
       this.jsonUpdated();
     }
   }
@@ -219,11 +217,13 @@ class GoatCurry {
     return this;
   }
 
-  handleBlur( event: Event ):void {
+  handleBlur( event: Event ) :void {
     const elem = event.target as HTMLElement;
     const value = elem.innerHTML;
-    const cleanValue = sanitizeHtml(HTMLHandler.stripTags(value), { allowedTags: [] });
-    elem.innerHTML = cleanValue;
+    let cleanValue: any;
+    cleanValue = sanitizeHtml(value, config.default.sanitizehtml );
+    cleanValue = cleanValue.replace( /<[^\/>][^>]*><\/[^>]+>/g, '' );
+    elem.innerHTML = cleanValue || value;
     const optionButton = elem.previousSibling as HTMLElement;
     let moveOptions = elem.nextSibling as HTMLElement;
 
