@@ -75,7 +75,7 @@ class GoatCurry {
     if (this.editor.length) {
       for( let element of this.editor ) {
         if( element instanceof HTMLElement ) {
-          element.addEventListener('click', this.handleClick.bind( (e:Event) => this.handleClick(e) ));
+          element.addEventListener( 'click', this.handleClick.bind( this ));
         }
       }
       // this.editor.forEach((e:Event) => {
@@ -111,6 +111,7 @@ class GoatCurry {
         this.addEditableArea();
       }
     } else if (!Helper.parentContainsClass(target, 'block')) {
+      console.log();
       this.addEditableArea();
     }
     return this;
@@ -221,7 +222,7 @@ class GoatCurry {
   handleBlur( event: Event ):void {
     const elem = event.target as HTMLElement;
     const value = elem.innerHTML;
-    const cleanValue = sanitizeHtml(HTML.stripTags(value), { allowedTags: [] });
+    const cleanValue = sanitizeHtml(HTMLHandler.stripTags(value), { allowedTags: [] });
     elem.innerHTML = cleanValue;
     const optionButton = elem.previousSibling as HTMLElement;
     let moveOptions = elem.nextSibling as HTMLElement;
@@ -263,17 +264,20 @@ class GoatCurry {
   garbageCollection( target: HTMLElement ) {
     const children = target.children as any;
     const removed: any = [];
+    for( let i = 0; i < children.length; i++ ) {
 
-    [...children].forEach((e) => {
-      [...e.children].forEach((item) => {
-        if (item.classList.contains('block')) {
-          if (!item.children.length || !HTML.stripTags(item.innerHTML.trim())) {
-            removed.push(e.dataset.blockindex);
-            e.remove();
-          }
+      if( children[i] && children[i].children.length && children[i].children[1] ) {
+
+        let item = children[i].children[1];
+
+        if( !item.children.length || !HTMLHandler.stripTags( item.innerHTML.trim() ) ) {
+          removed.push( children[i].dataset.blockindex );
+          children[i].remove();
+          break;
         }
-      });
-    });
+
+      }
+    }
 
     removed.forEach(( e: number ) => {
       if (this.outputJSON.blocks[e]) {
@@ -289,7 +293,6 @@ class GoatCurry {
     });
 
     const options = document.querySelector('.option');
-    console.log(options);
     if (options) {
       options.remove();
     }

@@ -82,7 +82,7 @@ class Modules {
     return this.moduleTypes;
   }
 
-  handleMoveClick( event: Event, elem: HTMLElement, GoatCurry: GoatCurry ): void {
+  handleMoveClick( event: Event, elem: HTMLElement, GoatCurry: any ): void {
     if ( elem && !elem.classList.contains('active')) {
       elem.classList.add('active');
 
@@ -102,6 +102,8 @@ class Modules {
 
       moveUpButton.addEventListener('click', (e) => {
         Helper.preventProp(e);
+
+        debugger;
 
         const wrapper = this.parentElement.parentElement;
         const blockIndex = wrapper.dataset.blockindex;
@@ -126,10 +128,18 @@ class Modules {
 
       moveDownButton.style.cssText = 'background: transparent; cursor:pointer; border: 0;';
 
-      moveDownButton.addEventListener('click', (e) => {
+      moveDownButton.addEventListener('click', (e: Event) => {
         Helper.preventProp(e);
 
-        const wrapper = this.parentElement.parentElement;
+        const target = e.currentTarget;
+
+        console.log( target );
+
+        if( !target ) {
+          return false;
+        }
+
+        const wrapper = target.parentElement.parentElement;
         const blockIndex = wrapper.dataset.blockindex;
 
         if (blockIndex < 0) {
@@ -148,7 +158,7 @@ class Modules {
 
       popUp.appendChild(moveDownButton);
 
-      if( elem ) {
+      if( elem && elem.parentNode ) {
         elem.parentNode.insertBefore( popUp, elem );
       }
     }
@@ -160,18 +170,20 @@ class Modules {
     const { length } = Object.keys(this.moduleTypes);
     popup.style.cssText = `background:#fff;width:250px;height:50px;position:absolute;top:0;left:0;z-index:99999999999;box-shadow: rgba(0, 0, 0, 0.2) 4px 5px 24px 2px;display:grid;grid-template-columns: repeat( ${length}, 1fr );`;
     
-    if( elem ) {
+    if( elem && elem.parentNode ) {
       elem.parentNode.insertBefore(popup, elem);
     }
 
 
     const entries = Object.entries(this.moduleTypes);
 
-    entries.forEach((e) => {
-      const [, property] = e;
+    entries.forEach(( e: any ) => {
+      console.log( e );
+      const property = e.property;
       const button = document.createElement('button');
-      // console.log(property);
-      const { icon } = property;
+
+      const icon: any = property.icon
+
       if (Helper.isArray(icon)) {
         const [first] = icon;
         button.innerHTML = first;
@@ -199,12 +211,18 @@ class Modules {
       elem.style.fill = 'red';
     } 
     else {
-      const { blockindex } = elem.parentElement.parentElement.dataset;
+      let blockindex;
+
+      if( elem && elem.parentElement && elem.parentElement.parentElement && elem.parentElement.parentElement.dataset ) {
+        blockindex = elem.parentElement.parentElement.dataset;
+      } 
+
       if( !elem ) {
         return false;
       }
+
       this.goatcurry.outputJSON.blocks.splice(blockindex, 1);
-      if( elem ) {
+      if( elem && elem.parentElement && elem.parentElement.parentElement ) {
         elem.parentElement.parentElement.remove();
         elem.remove();
       }
@@ -214,7 +232,7 @@ class Modules {
 
   handleBlur( event: Event ) {
     const newElem = event.currentTarget as HTMLElement;
-    const { blockindex } = newElem.dataset;
+    const blockindex: any = newElem.dataset.blockindex;
     const { type } = this.goatcurry.outputJSON.blocks[ blockindex ];
     const typeCapitalized = type.charAt(0).toUpperCase() + type.slice(1);
 
@@ -230,7 +248,7 @@ class Modules {
 
   static recalculateBlockIndex() {
     const wrappers = document.querySelectorAll('.block_wrapper');
-    wrappers.forEach((e, i) => {
+    wrappers.forEach(( e: any, i: number ) => {
       e.dataset.blockindex = i;
     });
   }

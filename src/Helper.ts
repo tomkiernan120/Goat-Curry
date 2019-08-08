@@ -1,23 +1,24 @@
 /* eslint linebreak-style: ["error", "windows"] */
 class Helper {
-  static preventProp(event) {
+  static preventProp( event: Event ) {
     event.preventDefault();
     event.stopImmediatePropagation();
   }
 
-  static isString(input) {
+  static isString( input: string ) :boolean {
     return typeof input === 'string';
   }
 
-  static isPlainObject(val) {
+  static isPlainObject( val: any ) :boolean {
     return !!val && typeof val === 'object';
   }
 
-  static isBrowser() {
-    return ![typeof window, typeof document].includes('undefined');
+  static isBrowser() :boolean {
+    const array = [typeof window, typeof document ]
+    return array.indexOf('undefined') <= -1;
   }
 
-  static isValidJSON(str) {
+  static isValidJSON( str: string ) {
     try {
       JSON.parse(str);
       return true;
@@ -26,11 +27,11 @@ class Helper {
     }
   }
 
-  static isArray(val) {
+  static isArray( val: any ): boolean {
     return Array.isArray(val);
   }
 
-  static getClickPosition(event) {
+  static getClickPosition( event: any ) {
     const currentEvent = event || window.event;
 
     let { pageX } = currentEvent;
@@ -44,7 +45,7 @@ class Helper {
     return { x: pageX, y: pageY };
   }
 
-  static moveArray(arr, oldIndex, newIndex) {
+  static moveArray( arr: any, oldIndex: number, newIndex: number) {
     if (newIndex >= arr.length) {
       let k = newIndex - arr.length + 1;
       while (k) {
@@ -56,7 +57,7 @@ class Helper {
     return arr;
   }
 
-  static parentContainsClass(element, className) {
+  static parentContainsClass( element: any, className: string) {
     let isContained = false;
     let newElement = element;
 
@@ -74,7 +75,7 @@ class Helper {
     return isContained;
   }
 
-  static getPosition(element) {
+  static getPosition( element: any ) {
     let xPosition = 0;
     let yPosition = 0;
 
