@@ -113,6 +113,14 @@ define("config", ["require", "exports"], function (require, exports) {
     var config = {
         sanitizehtml: {
             allowedTags: ['h1', 'h2', 'h3', 'h4', 'br']
+        },
+        icons: {
+            plus: '<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 30 30" style=" fill:inherit;"><path d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M21,16h-5v5 c0,0.553-0.448,1-1,1s-1-0.447-1-1v-5H9c-0.552,0-1-0.447-1-1s0.448-1,1-1h5V9c0-0.553,0.448-1,1-1s1,0.447,1,1v5h5 c0.552,0,1,0.447,1,1S21.552,16,21,16z"></path></svg>',
+            paragraph: '<img width="60%" height="auto" style="width:60%;height:auto;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADgSURBVEhL7dQxDgFBGIbhLUgoFBJOISollULlHhqHcAAanWNI6Aml6JQaDVEolER4/1kS+bMj2c2sSMyXPMVMsW+yxQR+v7gsijEUkHgl9LHFPYEeYq+GPaI++O6K09P5eXfBER3EWhkH6EiUBV5rQO4m5pRg8nt1wMZpeAcdsHEWzkF//BNn4Qxu0AEbp796DR2wcRruQgdsnIbllVpCR6I4Dcvk2ZtChzTn4ddaGGGO1ZsNUg3bVoUP+3Aq82HZV8IVSGRmTuHqkLuxOaU0ec8HaJtTuDyGaJqT3x8vCB639MIVvmusGQAAAABJRU5ErkJggg==">',
+            image: '<img width="60%" height="auto" style="width:60%;height:auto;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEoSURBVEhL7dYxS0JRGMbxG4m2JOQoTg19i7a2BvegLVqabXFsCpr6CEEFBX4NB5cQZ8GhwEGqrSGy/1tdOp3z3jjqe2jIB36g5773PnLOHcz+fVaw4VlH0uzhEVPFHTaRJBNopbkuavB3JEYVhdHKLPXRQBBt2NoZgmiD1i4RRBuc1RNevTVXkuIDSOqQ89RmzIsHcLMPbc68+AFl5DmGNpdkq2+xDdlyOWttZubiezx7a/OILn5BE5ISTuDPDBH7o6KLR/DTQn69IwukgnO492oWKpa45W1Z+Mop3Pt9CxdLpPwNVx/fvvNbuUmxZAtrnx9/pGjbzYqLsgvtedHFY+zMQc5de150sbU/K75AkB60YUuHCCJ/S+RtvEngGkdYxTLLpEyWvQOOk7YgRVwR3wAAAABJRU5ErkJggg==">',
+            list: '<img width="60%" height="auto" style="width:60%;height:auto;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAB0SURBVEhL7ZLRCYAwDETjEM7hPuqmLuFGmhMPDvMTpFKQPHjQNjQHaa14w+hu7nTtGoPmu3u4CGkKmlKEIIxoLWuAhWdzoBez/pj6RTTAQv2ifgzucot1c1aXD4QQRR8va0ADZhwIejFrAGNBY/jJiIoemJ3BGGlQG0dvZwAAAABJRU5ErkJggg==">',
+            link: '<img width="63%" height="auto" style="width:63%;height:auto;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAC6SURBVDhPxZJBDgFBEEXrAlhxEkIkiBsY4jxizVk4BzYSwR3Gyg28361lIpl0rXjJS6pmUtU11WO/oocnfOIeO+hmhCXOsYEbVBMXA1TxNGQRNdEkLm64iOEHTXKIYZ41jvEeMrMJPlA7caFiFegTNIliNamlj2dMJ6fiFeq53teiAi1s+Y5TsYsuVrd9wXSyiyNqu1VmeI1hHt1rM4aBtO1hyBzscIstLDC77W/aqCaaRD+J+57/jdkLos8kYzw3XRYAAAAASUVORK5CYII=">',
+            quote: '<img width="60%" height="auto" style="width:60%;height:auto;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADySURBVEhL7dQ9agJRFIbhaQ0uREzhEqxE0SJuIEVclY2pspIU6S0UwcofAjZpVGwSkvcTDlzGc/TWZl54Cs+c6wwqFlX/rwG2+C3RrA9riB3Ke5o9IWyD8iGzhvUJb0f0MGHegZTlXUuFecspy7uWCvOWU5Z3LRXmLacs71oq7NqX/ANrBW9HvhGmn2J0kw9YHSzh7b0ju2fo0BGPGgSNoL0DGhrkpMU9dFBvENWEHkB7eqCsaphCh940CHrADNp71SC3MXRogboGQRNobw7dLKsudOiElgZB+t/S3q3v56I2vvByfhXXg/ayP/equ6wo/gCI0ZVdTriXOgAAAABJRU5ErkJggg==">',
         }
     };
     exports.default = config;
@@ -243,7 +251,7 @@ define("index", ["require", "exports"], function (require, exports) {
                 optionButton.dataset.blockindex = self.outputJSON.blocks.length;
                 optionButton.classList.add('editor_button');
                 var moveOptions = document.createElement('button');
-                optionButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 30 30" style=" fill:inherit;"><path d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M21,16h-5v5 c0,0.553-0.448,1-1,1s-1-0.447-1-1v-5H9c-0.552,0-1-0.447-1-1s0.448-1,1-1h5V9c0-0.553,0.448-1,1-1s1,0.447,1,1v5h5 c0.552,0,1,0.447,1,1S21.552,16,21,16z"></path></svg>';
+                optionButton.innerHTML = config.default.icons.plus;
                 optionButton.style.cssText = 'position:absolute;left:-40px;top: 50%; transform: translateY( -50% ); cursor:pointer;z-index: 999999999; background: transparent; border: 0;';
                 optionButton.classList.add('editor_button');
                 optionButton.addEventListener('click', function (event) {
@@ -346,8 +354,15 @@ define("index", ["require", "exports"], function (require, exports) {
             var removed = [];
             for (var i = 0; i < children.length; i++) {
                 if (children[i] && children[i].children.length && children[i].children[1]) {
-                    var item = children[i].children[1];
-                    if (!item.children.length || !HTMLHandler.stripTags(item.innerHTML.trim())) {
+                    var count = 0;
+                    var item = void 0;
+                    while (children[i].children[count] && count < children[i].children.length && !item) {
+                        if (children[i].children[count].classList.contains('block')) {
+                            item = children[i].children[count];
+                        }
+                        count++;
+                    }
+                    if (item && (!item.children.length || !HTMLHandler.stripTags(item.innerHTML.trim()))) {
                         removed.push(children[i].dataset.blockindex);
                         children[i].remove();
                         break;
@@ -398,9 +413,11 @@ define("modules", ["require", "exports"], function (require, exports) {
     var List = require('./ModuleTypes/List');
     var Link = require('./ModuleTypes/Link');
     var Quote = require('./ModuleTypes/Quote');
+    var config = require('./config');
     var Modules = (function () {
         function Modules(GoatCurry) {
             this.options = GoatCurry.options;
+            console.log(config.default);
             this.moduleTypes = {
                 Heading: {
                     icon: [
@@ -413,27 +430,27 @@ define("modules", ["require", "exports"], function (require, exports) {
                     method: Header.render,
                 },
                 Paragraph: {
-                    icon: '<img width="60%" height="auto" style="width:60%;height:auto;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADgSURBVEhL7dQxDgFBGIbhLUgoFBJOISollULlHhqHcAAanWNI6Aml6JQaDVEolER4/1kS+bMj2c2sSMyXPMVMsW+yxQR+v7gsijEUkHgl9LHFPYEeYq+GPaI++O6K09P5eXfBER3EWhkH6EiUBV5rQO4m5pRg8nt1wMZpeAcdsHEWzkF//BNn4Qxu0AEbp796DR2wcRruQgdsnIbllVpCR6I4Dcvk2ZtChzTn4ddaGGGO1ZsNUg3bVoUP+3Aq82HZV8IVSGRmTuHqkLuxOaU0ec8HaJtTuDyGaJqT3x8vCB639MIVvmusGQAAAABJRU5ErkJggg==">',
+                    icon: config.default.icons.paragraph,
                     tag: 'p',
                     method: Paragraph.render,
                 },
                 Image: {
-                    icon: '<img width="60%" height="auto" style="width:60%;height:auto;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEoSURBVEhL7dYxS0JRGMbxG4m2JOQoTg19i7a2BvegLVqabXFsCpr6CEEFBX4NB5cQZ8GhwEGqrSGy/1tdOp3z3jjqe2jIB36g5773PnLOHcz+fVaw4VlH0uzhEVPFHTaRJBNopbkuavB3JEYVhdHKLPXRQBBt2NoZgmiD1i4RRBuc1RNevTVXkuIDSOqQ89RmzIsHcLMPbc68+AFl5DmGNpdkq2+xDdlyOWttZubiezx7a/OILn5BE5ISTuDPDBH7o6KLR/DTQn69IwukgnO492oWKpa45W1Z+Mop3Pt9CxdLpPwNVx/fvvNbuUmxZAtrnx9/pGjbzYqLsgvtedHFY+zMQc5de150sbU/K75AkB60YUuHCCJ/S+RtvEngGkdYxTLLpEyWvQOOk7YgRVwR3wAAAABJRU5ErkJggg==">',
+                    icon: config.default.icons.image,
                     tag: 'img',
                     method: Image.render,
                 },
                 List: {
-                    icon: '<img width="60%" height="auto" style="width:60%;height:auto;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAB0SURBVEhL7ZLRCYAwDETjEM7hPuqmLuFGmhMPDvMTpFKQPHjQNjQHaa14w+hu7nTtGoPmu3u4CGkKmlKEIIxoLWuAhWdzoBez/pj6RTTAQv2ifgzucot1c1aXD4QQRR8va0ADZhwIejFrAGNBY/jJiIoemJ3BGGlQG0dvZwAAAABJRU5ErkJggg==">',
+                    icon: config.default.icons.list,
                     tag: 'ul',
                     method: List.render,
                 },
                 Link: {
-                    icon: '<img width="63%" height="auto" style="width:63%;height:auto;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAC6SURBVDhPxZJBDgFBEEXrAlhxEkIkiBsY4jxizVk4BzYSwR3Gyg28361lIpl0rXjJS6pmUtU11WO/oocnfOIeO+hmhCXOsYEbVBMXA1TxNGQRNdEkLm64iOEHTXKIYZ41jvEeMrMJPlA7caFiFegTNIliNamlj2dMJ6fiFeq53teiAi1s+Y5TsYsuVrd9wXSyiyNqu1VmeI1hHt1rM4aBtO1hyBzscIstLDC77W/aqCaaRD+J+57/jdkLos8kYzw3XRYAAAAASUVORK5CYII=">',
+                    icon: config.default.icons.link,
                     tag: 'a',
                     method: Link.render,
                 },
                 Quote: {
-                    icon: '<img width="60%" height="auto" style="width:60%;height:auto;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADySURBVEhL7dQ9agJRFIbhaQ0uREzhEqxE0SJuIEVclY2pspIU6S0UwcofAjZpVGwSkvcTDlzGc/TWZl54Cs+c6wwqFlX/rwG2+C3RrA9riB3Ke5o9IWyD8iGzhvUJb0f0MGHegZTlXUuFecspy7uWCvOWU5Z3LRXmLacs71oq7NqX/ANrBW9HvhGmn2J0kw9YHSzh7b0ju2fo0BGPGgSNoL0DGhrkpMU9dFBvENWEHkB7eqCsaphCh940CHrADNp71SC3MXRogboGQRNobw7dLKsudOiElgZB+t/S3q3v56I2vvByfhXXg/ayP/equ6wo/gCI0ZVdTriXOgAAAABJRU5ErkJggg==">',
+                    icon: config.default.icons.quote,
                     tag: 'blockquote',
                     method: Quote.render,
                 },
@@ -527,7 +544,6 @@ define("modules", ["require", "exports"], function (require, exports) {
                 elem.parentNode.insertBefore(popup, elem);
             }
             var entries = Helper.entries(this.moduleTypes);
-            console.log(entries);
             entries.forEach(function (e) {
                 var name = e[0];
                 var property = e[1];

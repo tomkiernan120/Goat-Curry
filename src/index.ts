@@ -262,7 +262,6 @@ class GoatCurry {
   }
 
   garbageCollection( target: HTMLElement ) {
-    debugger;
     const children = target.children as any;
     const removed: any = [];
     for( let i = 0; i < children.length; i++ ) {
@@ -275,6 +274,7 @@ class GoatCurry {
           if( children[i].children[ count ].classList.contains( 'block' ) ) {
             item = children[i].children[ count ];
           }
+          count++;
         }
         // let item = children[i].children[1];
 
