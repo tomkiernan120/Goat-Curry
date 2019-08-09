@@ -1,4 +1,5 @@
 const path = require( "path" );
+const { CheckerPlugin } = require('awesome-typescript-loader');
 
 var config = {
   mode: 'development',
@@ -10,8 +11,10 @@ var config = {
     path: path.resolve( __dirname, 'dist' ),
     library: "GoatCurry",
     libraryExport: "default" ,
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
+    umdNamedDefine: true
   },
+  devtool: 'source-map',
   devServer: {
     contentBase: path.join(__dirname, 'public'),
     compress: true,
@@ -27,7 +30,7 @@ var config = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        loader: 'awesome-typescript-loader',
         exclude: /node_modules/
       },
       {
@@ -45,6 +48,9 @@ var config = {
   resolve: {
     extensions: [ '.tsx', '.ts', '.js' ]
   },
+  plugins: [
+    new CheckerPlugin()
+  ]
 };
 
 module.exports = config;
