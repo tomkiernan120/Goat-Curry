@@ -55,6 +55,12 @@
     "webpack-cli": "3.3.1",
     "webpack-dev-server": "3.3.1"
   },
+  "renovate": {
+    "automerge": true,
+    "major": {
+      "automerge": false
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/tomkiernan120/Goat-Curry"
