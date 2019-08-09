@@ -50,7 +50,7 @@
     "store": "2.0.12",
     "ts-loader": "^6.0.4",
     "typescript": "^3.5.3",
-    "weallcontribute": "1.0.8",
+    "weallcontribute": "1.0.9",
     "webpack": "4.39.1",
     "webpack-cli": "3.3.6",
     "webpack-dev-server": "3.3.1"
