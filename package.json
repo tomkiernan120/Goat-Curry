@@ -10,8 +10,8 @@
     "update-contrib": "weallcontribute -o . && git add CONTRIBUTING.md && git commit -m 'docs(contributing): updated CONTRIBUTING.md'",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
-    "build:types": "tsc --emitDeclarationOnly",
-    "build:js": "babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline"
+    "build:types": "tsc",
+    "build:js": "babel src --extensions \".ts,.tsx\" --source-maps inline"
   },
   "bugs": {
     "url": "https://github.com/tomkiernan120/goat-curry/issues",
@@ -54,6 +54,12 @@
     "webpack": "4.30.0",
     "webpack-cli": "3.3.6",
     "webpack-dev-server": "3.3.1"
+  },
+  "renovate": {
+    "automerge": true,
+    "major": {
+      "automerge": false
+    }
   },
   "repository": {
     "type": "git",

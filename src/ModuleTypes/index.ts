@@ -9,3 +9,7 @@ var Quote = require( './Quote' );
 module.exports =  {
   Header, Paragraph, Image, List, Link, Quote,
 };
+
+export {
+  Header, Paragraph, Image, List, Link, Quote,
+};

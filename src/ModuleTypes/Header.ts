@@ -1,9 +1,9 @@
-var Helper = require('../Helper' );
-var HTML = require('../HTML' );
-
+const HTMLHandler = require( "../HTMLHandler" );
+const Helper = require( "../Helper" );
+ 
 class Header {
-  static render(...args) {
-    console.log(args);
+  static render( ...args: any) {
+    console.log( 'test' )
     const [event, GoatCurry] = args;
     Helper.preventProp(event);
     let { currentTarget } = event;
@@ -15,15 +15,23 @@ class Header {
 
     // get children
     const { children } = currentTarget;
-    let item;
+    let item: any;
 
-    [...children].forEach((e) => {
-      if (e.classList.contains('block')) {
-        item = e;
+    if( children.length ) {
+      for( let i = 0; i < children.length; i++ ) {
+        console.log( children[i] )
+        if( children[i].classList.contains( 'block' ) ) {
+          item = children[i];
+        }
       }
-    });
+    }
 
-    const newInner = HTML.stripTags(item.innerHTML);
+
+    if( typeof item === "undefined" || !item ) {
+      return false;
+    }
+
+    const newInner = HTMLHandler.stripTags( item.innerHTML );
 
     const { blockindex } = currentTarget.dataset;
 
@@ -43,3 +51,5 @@ class Header {
 
 
 module.exports = Header;
+
+export default Header;
