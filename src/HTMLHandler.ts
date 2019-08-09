@@ -5,6 +5,10 @@ class HTMLHandler {
     tmp.innerHTML = html;
     return tmp.textContent || tmp.innerText || '';
   }
+  static stripTagsLeaveBR( html: string ) {
+		html = html.replace(/<(?!br\s*\/?)[^>]+>/g, '');
+		return html;
+  }
 }
 
 

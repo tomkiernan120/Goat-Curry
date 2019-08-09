@@ -231,21 +231,16 @@ class Modules {
   }
 
   handleBlur( event: Event ) {
-    console.log( event );
     const newElem = event.currentTarget as HTMLElement;
-    console.log( newElem );
     const blockindex: any = newElem.dataset.blockindex;
-    console.log( blockindex );
     const { type } = this.goatcurry.outputJSON.blocks[ blockindex ];
-    console.log( type );
     const typeCapitalized = type.charAt(0).toUpperCase() + type.slice(1);
-    console.log( type );
 
     const { tag } = this.moduleTypes[typeCapitalized];
 
     if (tag) {
       const htmlTag = document.createElement(tag);
-      htmlTag.innerHTML = HTMLHandler.stripTags( newElem.innerHTML );
+      htmlTag.innerHTML = HTMLHandler.stripTagsLeaveBR( newElem.innerHTML );
       newElem.innerHTML = '';
       newElem.appendChild(htmlTag);
     }
