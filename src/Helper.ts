@@ -89,6 +89,16 @@ class Helper {
 
     return { x: xPosition, y: yPosition };
   }
+
+  static entries( obj: any ) {
+    var ownProps = Object.keys( obj );
+    var i = ownProps.length;
+    var resArray: any = [i];
+    while( i-- ) {
+      resArray[ i ] = [ ownProps[i], obj[ ownProps[i] ] ];
+    }
+    return resArray;
+  }
 }
 
 module.exports = Helper;

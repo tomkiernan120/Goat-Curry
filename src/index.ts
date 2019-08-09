@@ -143,7 +143,7 @@ class GoatCurry {
 
       const moveOptions = document.createElement('button');
 
-      optionButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 30 30" style=" fill:inherit;"><path d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M21,16h-5v5 c0,0.553-0.448,1-1,1s-1-0.447-1-1v-5H9c-0.552,0-1-0.447-1-1s0.448-1,1-1h5V9c0-0.553,0.448-1,1-1s1,0.447,1,1v5h5 c0.552,0,1,0.447,1,1S21.552,16,21,16z"></path></svg>';
+      optionButton.innerHTML = config.default.icons.plus;
 
       optionButton.style.cssText = 'position:absolute;left:-40px;top: 50%; transform: translateY( -50% ); cursor:pointer;z-index: 999999999; background: transparent; border: 0;';
       optionButton.classList.add('editor_button');
@@ -262,15 +262,23 @@ class GoatCurry {
   }
 
   garbageCollection( target: HTMLElement ) {
+    debugger;
     const children = target.children as any;
     const removed: any = [];
     for( let i = 0; i < children.length; i++ ) {
 
       if( children[i] && children[i].children.length && children[i].children[1] ) {
 
-        let item = children[i].children[1];
+        let count = 0;
+        let item: any;
+        while( children[i].children[ count ] && count < children[i].children.length && !item ) {
+          if( children[i].children[ count ].classList.contains( 'block' ) ) {
+            item = children[i].children[ count ];
+          }
+        }
+        // let item = children[i].children[1];
 
-        if( !item.children.length || !HTMLHandler.stripTags( item.innerHTML.trim() ) ) {
+        if( item && ( !item.children.length || !HTMLHandler.stripTags( item.innerHTML.trim() ) ) ) {
           removed.push( children[i].dataset.blockindex );
           children[i].remove();
           break;
