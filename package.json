@@ -52,7 +52,7 @@
     "typescript": "3.5.3",
     "weallcontribute": "1.0.9",
     "webpack": "4.39.1",
-    "webpack-cli": "3.3.6",
+    "webpack-cli": "3.3.12",
     "webpack-dev-server": "3.7.2"
   },
   "renovate": {
