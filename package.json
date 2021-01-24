@@ -53,7 +53,7 @@
     "weallcontribute": "1.0.9",
     "webpack": "4.39.1",
     "webpack-cli": "3.3.6",
-    "webpack-dev-server": "3.7.2"
+    "webpack-dev-server": "3.11.2"
   },
   "renovate": {
     "automerge": true,
